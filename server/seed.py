@@ -105,5 +105,17 @@ if __name__ == '__main__':
                 )
             memberevents.append(memberevent)
         db.session.add_all(memberevents)  
-        db.session.commit()  
+        db.session.commit() 
+
+        print("Seeding users...")
+        users = []  
+        for i in range(20):
+            user = Admin(
+                username=fake.user_name(),  
+                password=fake.password()
+            )
+            users.append(user)
+
+        db.session.add_all(users)
+        db.session.commit() 
             
