@@ -1,6 +1,6 @@
 import random
 from app import app
-from models import db,Group,Attendance,Member,Event,MemberEvent
+from models import db,Group,Attendance,Member,Event,MemberEvent,Admin
 from faker import Faker
 from datetime import datetime, timedelta
 
@@ -30,6 +30,7 @@ if __name__ == '__main__':
         Member.query.delete()
         Event.query.delete()
         Group.query.delete()
+        Admin.query.delete()
 
 
         print("Seeding groups...")
@@ -106,4 +107,16 @@ if __name__ == '__main__':
             memberevents.append(memberevent)
         db.session.add_all(memberevents)  
         db.session.commit()  
+
+        print("Seeding users...")
+        admins = []  
+        for i in range(5):
+            user = Admin(
+               username=fake.user_name(),  
+                password=fake.password()
+            )
+            admins.append(user)
+
+        db.session.add_all(admins)
+        db.session.commit()
             
