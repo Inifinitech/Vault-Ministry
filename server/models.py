@@ -85,3 +85,12 @@ class MemberEvent(db.Model,SerializerMixin):
     member=db.relationship('Member',back_populates='memberevents')
     event=db.relationship('Event',back_populates='memberevents')
     
+class Admin(db.Model,SerializerMixin):
+    __tablename__='admins'
+
+    id=db.Column(db.Integer,primary_key=True)
+    user_name=db.Column(db.String,unique=True,nullable=False)
+    password=db.Column(db.String)
+
+    def __repr__(self):
+        return '<user:{self.user_name}>'
