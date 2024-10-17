@@ -15,8 +15,7 @@ function AdminDashboard() {
           <div className="grid grid-cols-3 gap-8 mb-10">
             
             {[
-              { title: 'Total Members', value: '120...' },
-              { title: 'Total Groups', value: '8' },
+              { title: 'Total AG Groups', value: '8' },
               { title: 'Attendance Rate', value: '85%' }
             ].map((stat, idx) => (
               <div key={idx} className="bg-white p-6 shadow-xl rounded-lg transform transition duration-500 hover:scale-105">

@@ -6,14 +6,13 @@ const Login = ({ isOpen, onClose }) => {
     const [password, setPassword] = useState('');
     const [error, setError] = useState(null);
 
-    const navigate = useNavigate(); // Create the navigate instance
+    const navigate = useNavigate();
 
     if (!isOpen) return null;
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // Create login payload
         const loginData = {
             username,
             password

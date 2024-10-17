@@ -62,7 +62,7 @@ function ViewMembers() {
         setError(null); // Reset error before API call
 
         try {
-            const response = await fetch(`/api/mark-attendance/${memberName}`, {
+            const response = await fetch(`http://127.0.0.1:5555/homemembers/${memberName}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

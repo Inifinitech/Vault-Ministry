@@ -1,5 +1,18 @@
 import { useState, useEffect } from 'react';
 import { Pie, Line } from 'react-chartjs-2';
+import {
+  Chart as ChartJS,
+  ArcElement,
+  LineElement,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  Tooltip,
+  Legend,
+} from 'chart.js';
+
+// Register the components
+ChartJS.register(ArcElement, LineElement, CategoryScale, LinearScale, PointElement, Tooltip, Legend);
 
 function AttendanceReport() {
   const [totalMembers, setTotalMembers] = useState(0);
@@ -12,7 +25,7 @@ function AttendanceReport() {
   useEffect(() => {
     const fetchAttendanceData = async () => {
       try {
-        const response = await fetch('/api/attendance-report');
+        const response = await fetch('http://127.0.0.1:5555/reports');
         if (!response.ok) {
           throw new Error('Failed to fetch report data');
         }
@@ -22,6 +35,7 @@ function AttendanceReport() {
         setAbsentMembers(data.absentMembers);
         setAttendanceTrends(data.attendanceTrends);
       } catch (err) {
+        console.error("Error fetching attendance data:", err.message);
         setError(err.message);
       } finally {
         setLoading(false);
@@ -67,9 +81,16 @@ function AttendanceReport() {
             <h3>Attendance Percentage: {attendancePercentage}%</h3>
             <h3>Absent Members: {absentMembers}</h3>
           </div>
-          <div>
-            <Pie data={pieData} />
-            <Line data={lineData} />
+          <div style={{ display: 'flex', justifyContent: 'space-around' }}>
+            {/* Set the Pie chart container size */}
+            <div style={{ width: '300px', height: '300px' }}>
+              <Pie data={pieData} />
+            </div>
+
+            {/* Line chart can expand more horizontally */}
+            <div style={{ width: '600px', height: '300px' }}>
+              <Line data={lineData} />
+            </div>
           </div>
         </div>
       )}
