@@ -89,7 +89,7 @@ class Admin(db.Model,SerializerMixin):
     __tablename__='admins'
 
     id=db.Column(db.Integer,primary_key=True)
-    user_name=db.Column(db.String,unique=True,nullable=False)
+    username=db.Column(db.String,unique=True,nullable=False)
     password=db.Column(db.String)
 
     def __repr__(self):

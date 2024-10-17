@@ -1,12 +1,15 @@
-from flask import Flask,make_response,request,jsonify
+from flask import Flask,make_response,request,jsonify,session
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from datetime import datetime, timedelta
+from flask_bcrypt import Bcrypt
 from sqlalchemy import func
+from flask_cors import CORS
 
-from models import db,Group,Attendance,Member,MemberEvent,Event
+from models import db,Group,Attendance,Member,MemberEvent,Event,Admin
 from flask_restful import Resource,Api
 from sqlalchemy.exc import SQLAlchemyError
+import os
 
 app=Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] ="sqlite:///app.db"
@@ -16,11 +19,42 @@ app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
 migrate=Migrate(app,db)
 db.init_app(app)
 api=Api(app)
+bcrypt=Bcrypt(app)
+CORS(app)
+
+#secret key
+app.secret_key=os.urandom(24)
+
+#Endpoints
+@app.before_request
+def before_login():
+    protected_endpoints=['admins']
+    if request.endpoint in protected_endpoints and request.method =='GET' and 'user_id' not in session:
+        return jsonify (
+            {
+                "message":"Please log in"
+            }
+            
+        )
+
 
 class HomeMembers(Resource):
-    def get(self):
-        members_dict = [member.to_dict(only=('first_name', 'last_name')) | {'group_name': member.group.name} for member in Member.query.all()]
+    # def get(self):
+    #     members_dict = [member.to_dict(only=('first_name', 'last_name')) | {'group_name': member.group.name} for member in Member.query.all()]
+    #     return make_response(members_dict, 200)
+    
+
+     def get(self):
+        # if 'user_id' not in session:
+        #     return {"message":"Please Login in to acess resources"}
+        members_dict = []
+        for member in Member.query.all():
+            member_info = member.to_dict(only=('first_name', 'last_name'))
+            member_info.update({'group_name': member.group.name})
+            members_dict.append(member_info)
         return make_response(members_dict, 200)
+
+
     
 class HomeMember_name(Resource):
     def get(self, name):
@@ -189,6 +223,60 @@ class AttendanceReports(Resource):
         
         except Exception as e:
             return {'error': str(e)}, 500
+        
+class Admins(Resource):
+
+    def get(self):
+        admins_dict = [admin.to_dict(only=('id', 'username')) for admin in Admin.query.all()]
+        return make_response(admins_dict, 200)
+
+        
+    
+        
+    
+    def post(self):
+        username=request.json["username"]
+        password=request.json["password"]
+
+        hashed_pass=bcrypt.generate_password_hash(password).decode("utf-8")
+        new_user=Admin(username=username,password=hashed_pass)
+        db.session.add(new_user)
+        db.session.commit()
+        return {
+            "message":"User succesfully created"
+        }
+    
+
+class Login(Resource):
+    def post(self):
+        username = request.json.get("username")
+        password = request.json.get("password")  
+
+        user=Admin.query.filter_by(username=username).first()
+        if user and bcrypt.check_password_hash(user.password,password):
+            session["user_id"]=user.id
+
+            return make_response( {
+            "message":"Login successfull"
+         },200)
+        return make_response({
+            "message":"Invalid Credentials"
+        },401)
+    
+class Logout(Resource):
+    def post(self):
+        session.pop('user_id',None)
+
+        return jsonify({
+            "message":"Logout sucessfully"
+        })
+
+           
+
+
+
+
+
 
 
 api.add_resource(HomeMembers, '/homemembers')
@@ -197,6 +285,10 @@ api.add_resource(AdminRegistry, '/adminregistry')
 api.add_resource(AdminMemberSearch, '/adminsearch/<int:id>')
 api.add_resource(AttendanceReports, '/reports')
 api.add_resource(AttendanceDetails, '/attendancedetails')
+api.add_resource(Admins,'/admins')
+api.add_resource(Login,'/login')
+api.add_resource(Logout,'/logout')
+
 
 
 if __name__ == "__main__":
