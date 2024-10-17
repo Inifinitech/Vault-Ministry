@@ -12,7 +12,7 @@ function Home() {
     useEffect(() => {
         const fetchMembers = async () => {
             try {
-                const response = await fetch('/api/members');
+                const response = await fetch("http://127.0.0.1:5555/homemembers");
                 if (!response.ok) {
                     throw new Error('Failed to fetch members');
                 }
@@ -28,7 +28,7 @@ function Home() {
     }, []);
 
     const filteredMembers = members.filter(member =>
-        `${member.firstName} ${member.lastName}`.toLowerCase().includes(searchTerm.toLowerCase())
+        `${member.first_name} ${member.last_name}`.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
     return (
@@ -67,8 +67,8 @@ function Home() {
                             key={member.id}
                             className={`p-6 rounded-lg shadow-xl ${index % 2 === 0 ? 'bg-white' : 'bg-gray-50'} transition transform hover:scale-105`}
                         >
-                            <p className="font-semibold text-lg">{`${member.firstName} ${member.lastName}`}</p>
-                            <p className="text-gray-600">{`AG Group: ${member.agGroup}`}</p>
+                            <p className="font-semibold text-lg">{`${member.first_name} ${member.last_name}`}</p>
+                            <p className="text-gray-600">{`AG Group: ${member.group_name}`}</p>
                         </div>
                     ))}
                 </div>

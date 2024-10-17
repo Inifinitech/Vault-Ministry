@@ -4,6 +4,7 @@ from flask_migrate import Migrate
 from datetime import datetime, timedelta
 from flask_bcrypt import Bcrypt
 from sqlalchemy import func
+from flask_cors import CORS
 
 from models import db,Group,Attendance,Member,MemberEvent,Event,Admin
 from flask_restful import Resource,Api
@@ -19,6 +20,7 @@ migrate=Migrate(app,db)
 db.init_app(app)
 api=Api(app)
 bcrypt=Bcrypt(app)
+CORS(app)
 
 #secret key
 app.secret_key=os.urandom(24)
@@ -26,7 +28,7 @@ app.secret_key=os.urandom(24)
 #Endpoints
 @app.before_request
 def before_login():
-    protected_endpoints=['admins','homemembers']
+    protected_endpoints=['admins']
     if request.endpoint in protected_endpoints and request.method =='GET' and 'user_id' not in session:
         return jsonify (
             {
@@ -43,8 +45,8 @@ class HomeMembers(Resource):
     
 
      def get(self):
-        if 'user_id' not in session:
-            return {"message":"Please Login in to acess resources"}
+        # if 'user_id' not in session:
+        #     return {"message":"Please Login in to acess resources"}
         members_dict = []
         for member in Member.query.all():
             member_info = member.to_dict(only=('first_name', 'last_name'))
