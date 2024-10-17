@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 function RegisterMembers() {
     const [firstName, setFirstName] = useState('');
@@ -41,16 +41,16 @@ function RegisterMembers() {
             occupation,
             group,
         };
-
+        console.log(newMember)
         try {
-            const response = await fetch('/api/members', {
+            const response = await fetch('http://127.0.0.1:5555/adminregistry', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(newMember),
             });
-
+            
             if (response.ok) {
                 setSuccess('Member registered successfully!');
                 setFirstName('');

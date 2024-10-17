@@ -13,7 +13,7 @@ function ViewMembers() {
     useEffect(() => {
         const fetchMembers = async () => {
             try {
-                const response = await fetch('/api/members');
+                const response = await fetch("http://127.0.0.1:5555/adminregistry");
                 if (!response.ok) {
                     throw new Error('Failed to fetch members');
                 }
@@ -24,14 +24,14 @@ function ViewMembers() {
                 // Initialize attendance marked state for members
                 const attendanceStatus = {};
                 data.forEach(member => {
-                    const memberName = `${member.firstName} ${member.lastName}`;
+                    const memberName = `${member.first_name} ${member.last_name}`;
                     attendanceStatus[memberName] = member.attendance?.some(
                         attendance => new Date(attendance.date).toDateString() === today.toDateString()
                     ) || false;
                 });
                 setAttendanceMarked(attendanceStatus);
-            } catch (err) {
-                setError(err.message);
+            } catch (error) {
+                setError(error.message);
             } finally {
                 setLoading(false);
             }
@@ -80,7 +80,7 @@ function ViewMembers() {
                 throw new Error('Failed to mark attendance');
             }
         } catch (error) {
-            setError('Failed to mark attendance. Please try again later.');
+            setError(error, 'Failed to mark attendance. Please try again later.');
         }
     };
 
@@ -124,17 +124,17 @@ function ViewMembers() {
             <p className='text-red-500 text-center' aria-live="polite">{error}</p>
         ) : filteredMembers.length > 0 ? (
             filteredMembers.map((member) => {
-                const memberName = `${member.firstName} ${member.lastName}`;
+                const memberName = `${member.first_name} ${member.last_name}`;
                 return (
                     <div key={member.id} className="member-card p-4 bg-white border border-gray-200 rounded-lg shadow-lg mb-4 hover:shadow-xl transition">
                         <p className="text-lg font-semibold">{memberName}</p>
-                        <p>{`DOB: ${member.DOB}`}</p>
+                        <p>{`DOB: ${member.dob}`}</p>
                         <p>{`Student: ${member.student}`}</p>
                         <p>{`School: ${member.school}`}</p>
                         <p>{`Location: ${member.location}`}</p>
                         <p>{`Occupation: ${member.occupation}`}</p>
-                        <p>{`Visitor: ${member.visitor}`}</p>
-                        <p>{`Will Be Coming: ${member.willBeComing}`}</p>
+                        <p>{`Visitor: ${member.is_visitor}`}</p>
+                        <p>{`Will Be Coming: ${member.will_be_coming}`}</p>
                         <button onClick={() => markAttendance(memberName)}
                             className="mt-2 p-2 bg-green-500 text-white rounded-md hover:bg-green-600 transition">
                             Mark Attendance
