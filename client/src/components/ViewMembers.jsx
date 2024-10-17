@@ -13,18 +13,21 @@ function ViewMembers() {
     useEffect(() => {
         const fetchMembers = async () => {
             try {
-                const response = await fetch('/api/members');
+                const response = await fetch(
+                  "http://127.0.0.1:5555/homemembers"
+                );
                 if (!response.ok) {
                     throw new Error('Failed to fetch members');
                 }
                 const data = await response.json();
+                console.log(data);
                 setMembers(data);
                 setFilteredMembers(data);
 
                 // Initialize attendance marked state for members
                 const attendanceStatus = {};
                 data.forEach(member => {
-                    const memberName = `${member.firstName} ${member.lastName}`;
+                    const memberName = `${member.first_name} ${member.last_name}`;
                     attendanceStatus[memberName] = member.attendance?.some(
                         attendance => new Date(attendance.date).toDateString() === today.toDateString()
                     ) || false;
@@ -96,15 +99,15 @@ function ViewMembers() {
                 onChange={(e) => setSearchField(e.target.value)}
                 className='p-2 border-2 border-orange-500 rounded-md focus:border-orange-700 transition'
             >
-                <option value="firstName">First Name</option>
-                <option value="lastName">Last Name</option>
-                <option value="DOB">Date of Birth</option>
-                <option value="student">Student</option>
-                <option value="school">School</option>
+                <option value="first_name">First Name</option>
+                <option value="last_name">Last Name</option>
+                <option value="dob">Date of Birth</option>
+                {/* <option value="group_name">Student</option> */}
+                {/* <option value="school">School</option>
                 <option value="location">Location</option>
                 <option value="occupation">Occupation</option>
                 <option value="visitor">Visitor</option>
-                <option value="willBeComing">Will Be Coming</option>
+                <option value="willBeComing">Will Be Coming</option> */}
             </select>
         </div>
         
@@ -124,23 +127,29 @@ function ViewMembers() {
             <p className='text-red-500 text-center' aria-live="polite">{error}</p>
         ) : filteredMembers.length > 0 ? (
             filteredMembers.map((member) => {
-                const memberName = `${member.firstName} ${member.lastName}`;
-                return (
-                    <div key={member.id} className="member-card p-4 bg-white border border-gray-200 rounded-lg shadow-lg mb-4 hover:shadow-xl transition">
-                        <p className="text-lg font-semibold">{memberName}</p>
-                        <p>{`DOB: ${member.DOB}`}</p>
-                        <p>{`Student: ${member.student}`}</p>
-                        <p>{`School: ${member.school}`}</p>
-                        <p>{`Location: ${member.location}`}</p>
-                        <p>{`Occupation: ${member.occupation}`}</p>
-                        <p>{`Visitor: ${member.visitor}`}</p>
-                        <p>{`Will Be Coming: ${member.willBeComing}`}</p>
-                        <button onClick={() => markAttendance(memberName)}
-                            className="mt-2 p-2 bg-green-500 text-white rounded-md hover:bg-green-600 transition">
-                            Mark Attendance
-                        </button>
-                    </div>
-                );
+                 const memberName = `${member.first_name} ${member.last_name}`;
+                 return (
+                   <div
+                     key={member.id}
+                     className="member-card p-4 bg-white border border-gray-200 rounded-lg shadow-lg mb-4 hover:shadow-xl transition"
+                   >
+                     <p className="text-lg font-semibold">{memberName}</p>
+                     <p>{`DOB: ${member.dob}`}</p>
+                     <p>{`School: ${member.school}`}</p>
+                     <p>{`Location: ${member.location}`}</p>
+                     <p>{`Occupation: ${member.occupation}`}</p>
+                     {/* <p>{`Visitor: ${member.visitor}`}</p> */}
+                     <p>{`Will Be Coming: ${
+                       member.will_be_coming ? "Yes" : "No"
+                     }`}</p>
+                     <button
+                       onClick={() => markAttendance(memberName)}
+                       className="mt-2 p-2 bg-green-500 text-white rounded-md hover:bg-green-600 transition"
+                     >
+                       Mark Attendance
+                     </button>
+                   </div>
+                 );
             })
         ) : (
             <p className="text-center text-lg">No members found.</p>

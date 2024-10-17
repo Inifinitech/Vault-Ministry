@@ -20,22 +20,23 @@ migrate=Migrate(app,db)
 db.init_app(app)
 api=Api(app)
 bcrypt=Bcrypt(app)
-CORS(app)
+# CORS(app)
+CORS(app, resources={r"/*": {"origins": "*"}})
 
 #secret key
 app.secret_key=os.urandom(24)
 
-#Endpoints
-@app.before_request
-def before_login():
-    protected_endpoints=['admins']
-    if request.endpoint in protected_endpoints and request.method =='GET' and 'user_id' not in session:
-        return jsonify (
-            {
-                "message":"Please log in"
-            }
+# #Endpoints
+# @app.before_request
+# def before_login():
+#     protected_endpoints=['admins']
+#     if request.endpoint in protected_endpoints and request.method =='GET' and 'user_id' not in session:
+#         return jsonify (
+#             {
+#                 "message":"Please log in"
+#             }
             
-        )
+#         )
 
 
 class HomeMembers(Resource):
@@ -49,7 +50,7 @@ class HomeMembers(Resource):
         #     return {"message":"Please Login in to acess resources"}
         members_dict = []
         for member in Member.query.all():
-            member_info = member.to_dict(only=('first_name', 'last_name'))
+            member_info = member.to_dict(only=('first_name', 'last_name','dob','occupation','school' ,'location','will_be_coming'))
             member_info.update({'group_name': member.group.name})
             members_dict.append(member_info)
         return make_response(members_dict, 200)
@@ -79,6 +80,8 @@ class AdminRegistry(Resource):
             for field in required_fields:
                 if field not in data:
                     return {'error': f'Missing field: {field}'}, 400
+                
+            print("Received data:",data)    
         
         # Fetch the group instance
             group = Group.query.get(data['group_id'])
