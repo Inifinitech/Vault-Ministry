@@ -32,7 +32,7 @@ function Home() {
     );
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-indigo-400 to-purple-600 flex flex-col items-center justify-center p-6">
+        <div className="min-h-screen bg-gradient-to-r from-blue-700 to-fuchsia-700 flex flex-col items-center justify-center p-6">
             <h1 className="text-center text-5xl font-extrabold text-white mb-4 shadow-md">Vault Ministry</h1>
 
             <h2 className="text-4xl font-extrabold text-white mb-8">Registered Members</h2>

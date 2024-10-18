@@ -1,8 +1,39 @@
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom'
 
+
 function AdminDashboard() {
+  const [members, setMembers] = useState([])
+  const [totalMembers, setTotalMembers] = useState(0)
+  const [attendanceRate, setAttendanceRate] = useState(0)
+  const [error, setError] = useState(null)
+
+useEffect(() =>{ 
+  const displayMembers = async () => {
+    try {
+      const response = await fetch("http://127.0.0.1:5555/homemembers");
+      if (!response.ok) {
+        throw new Error('Failed to fetch members');
+      }
+      const data = await response.json()
+      setMembers(data)
+      setTotalMembers(data.length)
+
+      // attendance ratew
+      const displayAttendance = await fetch("http://127.0.0.1:5555/attendance-rate")
+      if (!displayAttendance.ok) {
+        throw new Error('Cannot get the attendance rate')
+      }
+      const attendanceData = await displayAttendance.json()
+      setAttendanceRate(attendanceData.rate)
+    } catch (err) {
+      setError(err)
+    }
+  }
+  displayMembers();
+}, [])
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col">
+    <div className="min-h-screen bg-gradient-to-r from-blue-700 to-fuchsia-700 flex flex-col">
       <div className="">
         <h1 className="text-center text-4xl font-bold p-4">Vault Ministry Reg Desk</h1>
       </div>
@@ -15,8 +46,9 @@ function AdminDashboard() {
           <div className="grid grid-cols-3 gap-8 mb-10">
             
             {[
-              { title: 'Total AG Groups', value: '8' },
-              { title: 'Attendance Rate', value: '85%' }
+              { title: 'Total Members', value: totalMembers ? totalMembers : 'Loading...' },
+              { title: 'Total Groups', value: '8' },
+              { title: 'Attendance Rate', value: attendanceRate ? `${attendanceRate}%`: 'Loading...'}
             ].map((stat, idx) => (
               <div key={idx} className="bg-white p-6 shadow-xl rounded-lg transform transition duration-500 hover:scale-105">
                 <h2 className="text-lg font-semibold text-gray-600">{stat.title}</h2>
@@ -45,7 +77,6 @@ function AdminDashboard() {
         </div>
       </main>
 
-      {/* Footer */}
       <footer className="bg-gray-900 text-white p-6">
         <button className="text-red-500 hover:text-red-700 font-semibold transition">
           Logout

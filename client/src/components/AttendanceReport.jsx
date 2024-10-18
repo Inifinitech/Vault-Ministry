@@ -68,27 +68,29 @@ function AttendanceReport() {
   };
 
   return (
-    <div>
+    <div className="p-8">
       {loading ? (
-        <p>Loading...</p>
+        <p className="text-center text-lg text-gray-600">Loading...</p>
       ) : error ? (
-        <p>{error}</p>
+        <p className="text-center text-lg text-red-600">{error}</p>
       ) : (
-        <div>
-          <h2>Attendance Report</h2>
-          <div>
-            <h3>Total Members: {totalMembers}</h3>
-            <h3>Attendance Percentage: {attendancePercentage}%</h3>
-            <h3>Absent Members: {absentMembers}</h3>
+        <div className="space-y-6">
+          <h2 className="text-2xl font-bold text-center">Attendance Report</h2>
+
+          <div className="text-center space-y-2">
+            <h3 className="text-xl font-semibold">Total Members: {totalMembers}</h3>
+            <h3 className="text-xl font-semibold">Attendance Percentage: {attendancePercentage}%</h3>
+            <h3 className="text-xl font-semibold">Absent Members: {absentMembers}</h3>
           </div>
-          <div style={{ display: 'flex', justifyContent: 'space-around' }}>
-            {/* Set the Pie chart container size */}
-            <div style={{ width: '300px', height: '300px' }}>
+
+          <div className="flex flex-col md:flex-row justify-around items-center space-y-6 md:space-y-0">
+            {/* Pie chart */}
+            <div className="w-64 h-64">
               <Pie data={pieData} />
             </div>
 
-            {/* Line chart can expand more horizontally */}
-            <div style={{ width: '600px', height: '300px' }}>
+            {/* Line chart */}
+            <div className="w-full md:w-2/3 h-64">
               <Line data={lineData} />
             </div>
           </div>

@@ -28,18 +28,19 @@ function RegisterMembers() {
         }
 
         const newMember = {
-            firstName,
-            lastName,
-            DOB,
+            first_name: firstName,
+            last_name: lastName,
+            dob: DOB,
             location,
             phone,
             leader,
-            isStudent, 
-            school: isStudent ? school : '', 
-            isVisitor, 
-            willBeComing: isVisitor ? willBeComing : false, 
+            is_student: isStudent,
+            school: isStudent ? school : '',
+            is_visitor: isVisitor,
+            will_be_coming: isVisitor ? willBeComing : false,
             occupation,
             group,
+            group_id: group
         };
         console.log(newMember)
         try {
@@ -51,6 +52,8 @@ function RegisterMembers() {
                 body: JSON.stringify(newMember),
             });
             
+            // const data = await response.json()
+
             if (response.ok) {
                 setSuccess('Member registered successfully!');
                 setFirstName('');
@@ -219,7 +222,7 @@ function RegisterMembers() {
                         checked={leader}
                         onChange={(e) => setLeader(e.target.checked)} 
                         className="mr-2" 
-                        required />
+                        />
                 </div>
 
                 {error && <p className="text-red-600">{error}</p>}
