@@ -81,9 +81,13 @@ function ViewMembers() {
             setError('Failed to mark attendance: ' + error.message);
         }
     };
-
+    const handleGoBack = () => {
+        window.history.back();
+      };
     return (
         <div className="container mx-auto p-4">
+        <button onClick={handleGoBack}>Back</button>
+
             <h1 className="text-3xl font-bold text-center text-orange-500 mb-6">View Members</h1>
 
             <div className='mb-4'>

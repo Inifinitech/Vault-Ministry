@@ -1,45 +1,37 @@
 import { useState } from 'react';
 
 function RegisterMembers() {
-    const [first_name, setFirstName] = useState('');
-    const [last_name, setLastName] = useState('');
-    const [dob, setDOB] = useState('');
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
+    const [DOB, setDOB] = useState('');
     const [location, setLocation] = useState('');
     const [phone, setPhone] = useState('');
-    const [is_student, setIsStudent] = useState(false); 
+    const [isStudent, setIsStudent] = useState(false); 
     const [school, setSchool] = useState('');
-    const [is_visitor, setIsVisitor] = useState(false); 
-    const [will_be_coming, setWillBeComing] = useState(false); 
+    const [isVisitor, setIsVisitor] = useState(false); 
+    const [willBeComing, setWillBeComing] = useState(false); 
     const [occupation, setOccupation] = useState('');
     const [group, setGroup] = useState('');
-    const [leader, setLeader] = useState(false); // Changed to boolean
+    const [leader, setLeader] = useState('');
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(null);
     const [isSubmitting, setIsSubmitting] = useState(false);
+
+    const handleGoBack = () => {
+        window.history.back();
+      };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setIsSubmitting(true);
 
-        if (!first_name || !last_name || !dob || !location || !phone || !occupation || !group) {
+        if (!firstName || !lastName || !DOB || !location || !phone || !occupation || !group) {
             setError('Please fill in all fields.');
             setIsSubmitting(false);
             return;
         }
 
         const newMember = {
-<<<<<<< HEAD
-            first_name,
-            last_name,
-            dob,
-            location,
-            phone,
-            leader,
-            is_student, 
-            school, 
-            is_visitor, 
-            will_be_coming, 
-=======
             first_name: firstName,
             last_name: lastName,
             dob: DOB,
@@ -50,13 +42,11 @@ function RegisterMembers() {
             school: isStudent ? school : '',
             is_visitor: isVisitor,
             will_be_coming: isVisitor ? willBeComing : false,
->>>>>>> 6f1fb413b128a98ec49be63803d98d25230b397f
             occupation,
             group,
             group_id: group
         };
-        console.log('New Member Data:', JSON.stringify(newMember, null, 2));
-
+        console.log(newMember)
         try {
             const response = await fetch('http://127.0.0.1:5555/adminregistry', {
                 method: 'POST',
@@ -65,34 +55,26 @@ function RegisterMembers() {
                 },
                 body: JSON.stringify(newMember),
             });
-<<<<<<< HEAD
-
-            console.log('Response:', response);
-=======
             
             // const data = await response.json()
->>>>>>> 6f1fb413b128a98ec49be63803d98d25230b397f
 
             if (response.ok) {
-                const data = await response.json();
                 setSuccess('Member registered successfully!');
-                // Reset form fields
                 setFirstName('');
                 setLastName('');
                 setDOB('');
                 setLocation('');
                 setPhone('');
-                setIsStudent(false);
+                setIsStudent(false); 
                 setSchool('');
-                setIsVisitor(false);
-                setWillBeComing(false);
+                setIsVisitor(false); 
+                setWillBeComing(false); 
                 setOccupation('');
+                setLeader('');
                 setGroup('');
-                setLeader(false);
                 setError(null);
             } else {
-                const errorData = await response.json();
-                setError(`Failed to register member: ${errorData.message || 'Please try again.'}`);
+                setError('Failed to register member. Please try again.');
             }
         } catch (err) {
             console.error(err);
@@ -101,10 +83,10 @@ function RegisterMembers() {
             setIsSubmitting(false);
         }
     };
-    
 
     return (
         <div className="max-w-xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
+            <button onClick={handleGoBack}>Back</button>
             <h1 className="text-2xl font-semibold mb-6 text-gray-800">Register a New Member</h1>
             <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
@@ -112,7 +94,7 @@ function RegisterMembers() {
                     <input 
                         id="firstName" 
                         type="text" 
-                        value={first_name} 
+                        value={firstName} 
                         onChange={(e) => setFirstName(e.target.value)} 
                         className="w-full p-3 border border-gray-300 rounded-lg" 
                         required />
@@ -123,7 +105,7 @@ function RegisterMembers() {
                     <input 
                         id="lastName" 
                         type="text" 
-                        value={last_name} 
+                        value={lastName} 
                         onChange={(e) => setLastName(e.target.value)} 
                         className="w-full p-3 border border-gray-300 rounded-lg" 
                         required />
@@ -134,7 +116,7 @@ function RegisterMembers() {
                     <input 
                         id="DOB" 
                         type="date" 
-                        value={dob} 
+                        value={DOB} 
                         onChange={(e) => setDOB(e.target.value)} 
                         className="w-full p-3 border border-gray-300 rounded-lg" 
                         required />
@@ -166,13 +148,13 @@ function RegisterMembers() {
                     <input 
                         id="isStudent" 
                         type="checkbox" 
-                        checked={is_student} 
+                        checked={isStudent} 
                         onChange={(e) => setIsStudent(e.target.checked)} 
                         className="mr-2" />
                     <label htmlFor="isStudent" className="text-gray-700">Is Student?</label>
                 </div>
 
-                {is_student && (
+                {isStudent && (
                     <div>
                         <label className="block text-gray-700 mb-2" htmlFor="school">School Name</label>
                         <input 
@@ -188,18 +170,18 @@ function RegisterMembers() {
                     <input 
                         id="isVisitor" 
                         type="checkbox" 
-                        checked={is_visitor}
+                        checked={isVisitor} 
                         onChange={(e) => setIsVisitor(e.target.checked)} 
                         className="mr-2" />
                     <label htmlFor="isVisitor" className="text-gray-700">Is Visitor?</label>
                 </div>
 
-                {is_visitor && (
+                {isVisitor && (
                     <div className="flex items-center">
                         <input 
                             id="willBeComing" 
                             type="checkbox" 
-                            checked={will_be_coming} 
+                            checked={willBeComing} 
                             onChange={(e) => setWillBeComing(e.target.checked)} 
                             className="mr-2" />
                         <label htmlFor="willBeComing" className="text-gray-700">Will be coming again?</label>
@@ -218,38 +200,34 @@ function RegisterMembers() {
 
                 <div>
                     <label className="block text-gray-700 mb-2" htmlFor="group">AG Group</label>
-                    <select 
-                        id="group" 
-                        value={group} 
-                        onChange={(e) => setGroup(e.target.value)} 
-                        className="w-full p-3 border border-gray-300 rounded-lg"
-                        required
-                    >
-                        <option value="" disabled>Select Group</option>
-                        <option value="Transformers">Transformers</option>
-                        <option value="Relentless">Relentless</option>
-                        <option value="Innovators">Innovators</option>
-                        <option value="Pacesetters">Pacesetters</option>
-                        <option value="Ignition">Ignition</option>
-                        <option value="Gifted">Gifted</option>
-                        <option value="Visionaries">Visionaries</option>
-                        <option value="Elevated">Elevated</option>
-                    </select>
-                </div>
+                        <select 
+                            id="group" 
+                            value={group} 
+                            onChange={(e) => setGroup(e.target.value)} 
+                            className="w-full p-3 border border-gray-300 rounded-lg"
+                            required
+                        >
+                            <option value="" disabled>Select Group</option>
+                            <option value="Transformers">Transformers</option>
+                            <option value="Relentless">Relentless</option>
+                            <option value="Innovators">Innovators</option>
+                            <option value="Pacesetters">Pacesetters</option>
+                            <option value="Ignition">Ignition</option>
+                            <option value="Gifted">Gifted</option>
+                            <option value="Visionaries">Visionaries</option>
+                            <option value="Elevated">Elevated</option>
+                        </select>
+                    </div>
 
                 <div>
-                    <label className="block text-gray-700 mb-2" htmlFor="leader">Is Leader?</label>
+                    <label className="block text-gray-700 mb-2" htmlFor="leader">Leader</label>
                     <input 
                         id="leader" 
                         type="checkbox" 
                         checked={leader}
                         onChange={(e) => setLeader(e.target.checked)} 
-<<<<<<< HEAD
-                        className="mr-2" />
-=======
                         className="mr-2" 
                         />
->>>>>>> 6f1fb413b128a98ec49be63803d98d25230b397f
                 </div>
 
                 {error && <p className="text-red-600">{error}</p>}
@@ -261,6 +239,7 @@ function RegisterMembers() {
                     className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg">
                     {isSubmitting ? 'Submitting...' : 'Register Member'}
                 </button>
+                
             </form>
         </div>
     );
