@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom'
-import Logout from './Logout';
 import Footer from './Footer';
 
 
@@ -28,12 +27,13 @@ useEffect(() =>{
       }
       const attendanceData = await displayAttendance.json()
       setAttendanceRate(attendanceData.attendanceRate)
-    } catch (err) {
-      setError(err)
+    } catch (error) {
+      setError(error)
     }
   }
   displayMembers();
 }, [])
+
   return (
     <div className="min-h-screen bg-gradient-to-r from-blue-700 to-fuchsia-700 flex flex-col">
       <div className="">

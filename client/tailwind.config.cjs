@@ -4,8 +4,11 @@ export default {
   theme: {
     extend: {
       backgroundImage: {
-        'hero-pattern': "url('/src/images/homebg.jpg')",  // Adjusted path for home background image
-        'footer-texture': "url('/src/images/footer-texture.png')",  // Update this if you have a footer texture image in the same folder
+        'hero-pattern': "url('/src/images/homebg.jpg')",
+        'register-page': "url('/src/images/registerbg.jpg')",
+        'view-page': "url('/src/images/viewbg.jpg')",
+        'report-page': "url('/src/images/reportbg.jpg')",
+        'footer-texture': "url('/src/images/footer-texture.png')",
       },
     },
   },

@@ -107,6 +107,8 @@ class AdminRegistry(Resource):
         except Exception as e:
             db.session.rollback()
             return {'error': str(e)}, 500
+
+
             
     def get(self):
         members = [member.to_dict(rules=('-group.members','-attendances', '-events','-memberevents',)) for member in Member.query.all()]

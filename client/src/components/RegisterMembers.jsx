@@ -80,12 +80,19 @@ function RegisterMembers() {
         }
     };
 
+    const handleGoBack = () => {
+        window.history.back();
+      };
+
     return (
-        <div className="max-w-xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
+        <div className="bg-register-page bg-cover bg-center">
+        <button onClick={handleGoBack}><img src='/images/home.jpg' alt="arrow" className="inline w-4 h-4 mr-2"/>Back</button>
+        
+        <div className="max-w-xl mx-auto mt-10 p-6 rounded-lg shadow-md">
             <h1 className="text-2xl font-semibold mb-6 text-gray-800">Register a New Member</h1>
             <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
-                    <label className="block text-gray-700 mb-2" htmlFor="firstName">First Name</label>
+                    <label className="block text-white mb-2" htmlFor="firstName">First Name</label>
                     <input 
                         id="firstName" 
                         type="text" 
@@ -195,24 +202,25 @@ function RegisterMembers() {
 
                 <div>
                     <label className="block text-gray-700 mb-2" htmlFor="group">AG Group</label>
-                        <select 
-                            id="group" 
-                            value={group} 
-                            onChange={(e) => setGroup(e.target.value)} 
-                            className="w-full p-3 border border-gray-300 rounded-lg"
-                            required
-                        >
-                            <option value="" disabled>Select Group</option>
-                            <option value="Transformers">Transformers</option>
-                            <option value="Relentless">Relentless</option>
-                            <option value="Innovators">Innovators</option>
-                            <option value="Pacesetters">Pacesetters</option>
-                            <option value="Ignition">Ignition</option>
-                            <option value="Gifted">Gifted</option>
-                            <option value="Visionaries">Visionaries</option>
-                            <option value="Elevated">Elevated</option>
-                        </select>
-                    </div>
+                    <select 
+    id="group" 
+    value={group} 
+    onChange={(e) => setGroup(e.target.value)} 
+    className="w-full p-3 border border-gray-300 rounded-lg"
+    required
+>
+    <option value="" disabled>Select Group</option>
+    <option value="1">Transformers</option>
+    <option value="2">Relentless</option>
+    <option value="3">Innovators</option>
+    <option value="4">Pacesetters</option>
+    <option value="5">Ignition</option>
+    <option value="6">Gifted</option>
+    <option value="7">Visionaries</option>
+    <option value="8">Elevated</option>
+</select>
+
+</div>
 
                 <div>
                     <label className="block text-gray-700 mb-2" htmlFor="leader">Leader</label>
@@ -235,6 +243,7 @@ function RegisterMembers() {
                     {isSubmitting ? 'Submitting...' : 'Register Member'}
                 </button>
             </form>
+        </div>
         </div>
     );
 }

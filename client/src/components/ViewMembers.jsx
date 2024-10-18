@@ -82,6 +82,8 @@ function ViewMembers() {
     };
 
     return (
+        <div className="bg-view-page bg-cover bg-center">
+            <button></button>
         <div className="container mx-auto p-4">
             <h1 className="text-3xl font-bold text-center text-orange-500 mb-6">View Members</h1>
 
@@ -145,6 +147,7 @@ function ViewMembers() {
             ) : (
                 <p className="text-center text-lg">No members found.</p>
             )}
+        </div>
         </div>
     );
 }
