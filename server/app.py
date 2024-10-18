@@ -40,9 +40,7 @@ def before_login():
 
 
 class HomeMembers(Resource):
-    # def get(self):
-    #     members_dict = [member.to_dict(only=('first_name', 'last_name')) | {'group_name': member.group.name} for member in Member.query.all()]
-    #     return make_response(members_dict, 200)
+    
     
 
      def get(self):
@@ -50,7 +48,7 @@ class HomeMembers(Resource):
         #     return {"message":"Please Login in to acess resources"}
         members_dict = []
         for member in Member.query.all():
-            member_info = member.to_dict(only=('first_name', 'last_name'))
+            member_info = member.to_dict(only=('first_name', 'last_name','dob','location','phone','is_student','will_be_coming','is_visitor','school','occupation'))
             member_info.update({'group_name': member.group.name})
             members_dict.append(member_info)
         return make_response(members_dict, 200)
