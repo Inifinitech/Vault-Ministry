@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+// import { Link } from 'react-router-dom';
 import Login from './Login'; 
 
 function Home() {
@@ -43,11 +43,6 @@ function Home() {
                 Admin Login
             </button>
 
-            
-            <Link to={'/admin-dashboard'}>
-            <Login isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
-            </Link>
-
             <input
                 type="text"
                 placeholder="Search members"
@@ -73,8 +68,14 @@ function Home() {
                     ))}
                 </div>
             )}
+            
+            <Login isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+            
         </div>
+        
     );
+    
+    
 }
 
 export default Home;

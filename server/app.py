@@ -90,7 +90,7 @@ class AdminRegistry(Resource):
             new_member = Member(
             first_name=data['first_name'],
             last_name=data['last_name'],
-            group=group,  # Assign the group instance
+            group=group,
             dob=data.get('dob'),
             location=data.get('location'),
             phone=data.get('phone'),
@@ -232,10 +232,6 @@ class Admins(Resource):
     def get(self):
         admins_dict = [admin.to_dict(only=('id', 'username')) for admin in Admin.query.all()]
         return make_response(admins_dict, 200)
-
-        
-    
-        
     
     def post(self):
         username=request.json["username"]

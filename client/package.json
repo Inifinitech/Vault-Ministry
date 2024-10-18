@@ -1,7 +1,6 @@
 {
   "name": "vault",
   "proxy": "http://127.0.0.1:5555",
-  "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {

@@ -6,17 +6,6 @@ from datetime import datetime, timedelta
 
 fake = Faker()
 
-church_groups = [
-    "Transformers",
-    "Relentless",
-    "Innovators",
-    "Pacesetters",
-    "Ignition",
-    "Gifted",
-    "Visionaries",
-    "Elevated",
-]
-
 def church_events():
     events = [
         "Family Gathering",
@@ -43,18 +32,17 @@ if __name__ == '__main__':
         Admin.query.delete()
 
         print("Seeding groups...")
-        random.shuffle(church_groups)  # Shuffle the group names
-        groups = [Group(name=name) for name in church_groups[:20]]  # Take the first 20 unique names
+        groups = [Group(name=fake.name()) for _ in range(20)]
         db.session.add_all(groups)   
         db.session.commit() 
 
-        print("Seeding members....")
+        print("Seeding members...")
         members = []
-        for i in range(30):
+        for _ in range(30):
             member = Member(
                 first_name=fake.first_name(),
                 last_name=fake.last_name(),
-                dob=fake.date(),
+                dob=fake.date_of_birth(minimum_age=18, maximum_age=80),  # Ensure realistic dob
                 location=fake.city(),
                 phone=fake.phone_number(),
                 is_student=fake.boolean(chance_of_getting_true=50),
@@ -62,27 +50,25 @@ if __name__ == '__main__':
                 is_visitor=fake.boolean(chance_of_getting_true=50),
                 school=fake.company(),
                 occupation=fake.job(),
-                group_id=random.choice(groups).id  # randomly selects a group from groups
+                group_id=random.choice(groups).id
             )
             members.append(member)
         db.session.add_all(members) 
         db.session.commit()   
 
-        print("Seeding attendances....")
+        print("Seeding attendances...")
         today = datetime.now()
         days_to_sunday = 6 - today.weekday() if today.weekday() < 6 else 0
-        attendance_date = (today + timedelta(days=days_to_sunday)).strftime('%Y-%m-%d')
-
-        attendances = []
-        for i in range(20):
-            attendance = Attendance(
-                date=attendance_date,
+        attendance_dates = [(today + timedelta(days=i)).strftime('%Y-%m-%d') for i in range(7)]  # Next week
+        attendances = [
+            Attendance(
+                date=random.choice(attendance_dates),  # Random date within the week
                 status=random.choice(['present', 'absent']),
                 member_id=random.choice(members).id
-            )
-            attendances.append(attendance)
-        db.session.add_all(attendances)   
-        db.session.commit() 
+            ) for _ in range(20)
+        ]
+        db.session.add_all(attendances)
+        db.session.commit()
 
         print("Seeding events...")
         events = [Event(name=church_events()) for _ in range(30)]
@@ -90,24 +76,18 @@ if __name__ == '__main__':
         db.session.commit()  
 
         print("Seeding member events...")
-        memberevents = []
-        for i in range(50):
-            memberevent = MemberEvent(
+        memberevents = [
+            MemberEvent(
                 member_id=random.choice(members).id,
                 event_id=random.choice(events).id
-            )
-            memberevents.append(memberevent)
-        db.session.add_all(memberevents)  
-        db.session.commit()  
+            ) for _ in range(50)
+        ]
+        db.session.add_all(memberevents)
+        db.session.commit()
 
         print("Seeding users...")
-        admins = []
-        for i in range(5):
-            user = Admin(
-                username=fake.user_name(),  
-                password=fake.password()
-            )
-            admins.append(user)
-
+        admins = [Admin(username=fake.user_name(), password=fake.password()) for _ in range(5)]
         db.session.add_all(admins)
         db.session.commit()
+
+        print("Seeding completed.")
