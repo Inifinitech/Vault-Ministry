@@ -18,7 +18,14 @@ function AttendanceDetails() {
                     throw new Error('Failed to fetch attendance details');
                 }
                 const data = await response.json();
-                setMembers(data);
+
+                // Filter attendance records to only include Sundays
+                const sundayAttendance = data.filter(member => {
+                    const attendanceDate = new Date(member.date);
+                    return attendanceDate.getDay() === 0; // 0 is Sunday
+                });
+
+                setMembers(sundayAttendance);
             } catch (err) {
                 setError(err.message);
             } finally {
@@ -35,10 +42,11 @@ function AttendanceDetails() {
     const printReport = () => {
         window.print();
     };
-  return (
-    <div>
-        <button onClick={handleGoBack}>Back</button> 
-                    <div className="mb-4">
+
+    return (
+        <div>
+            <div className="mb-4">
+            <button onClick={handleGoBack}>Back</button>
                 <button onClick={exportToCSV} className="p-2 bg-blue-500 text-white rounded mr-2">
                     Export to CSV
                 </button>
@@ -50,6 +58,8 @@ function AttendanceDetails() {
                 <p aria-live="polite">Loading attendance details...</p>
             ) : error ? (
                 <p className='text-red-500'>{error}</p>
+            ) : members.length === 0 ? (
+                <p>No attendance records available for Sundays.</p>
             ) : (
                 <table className='table-auto w-full'>
                     <thead>
@@ -71,10 +81,9 @@ function AttendanceDetails() {
                         ))}
                     </tbody>
                 </table>
-            )}   
-              
-    </div>
-  )
+            )}
+        </div>
+    );
 }
 
-export default AttendanceDetails
+export default AttendanceDetails;
