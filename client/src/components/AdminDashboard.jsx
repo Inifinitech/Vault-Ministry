@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom'
+import Logout from './Logout';
+import Footer from './Footer';
 
 
 function AdminDashboard() {
@@ -20,12 +22,12 @@ useEffect(() =>{
       setTotalMembers(data.length)
 
       // attendance ratew
-      const displayAttendance = await fetch("http://127.0.0.1:5555/attendance-rate")
+      const displayAttendance = await fetch("http://127.0.0.1:5555/report")
       if (!displayAttendance.ok) {
         throw new Error('Cannot get the attendance rate')
       }
       const attendanceData = await displayAttendance.json()
-      setAttendanceRate(attendanceData.rate)
+      setAttendanceRate(attendanceData.attendanceRate)
     } catch (err) {
       setError(err)
     }
@@ -48,7 +50,7 @@ useEffect(() =>{
             {[
               { title: 'Total Members', value: totalMembers ? totalMembers : 'Loading...' },
               { title: 'Total Groups', value: '8' },
-              { title: 'Attendance Rate', value: attendanceRate ? `${attendanceRate}%`: 'Loading...'}
+              { title: 'Attendance Rate', value: `${attendanceRate}%`}
             ].map((stat, idx) => (
               <div key={idx} className="bg-white p-6 shadow-xl rounded-lg transform transition duration-500 hover:scale-105">
                 <h2 className="text-lg font-semibold text-gray-600">{stat.title}</h2>
@@ -78,9 +80,7 @@ useEffect(() =>{
       </main>
 
       <footer className="bg-gray-900 text-white p-6">
-        <button className="text-red-500 hover:text-red-700 font-semibold transition">
-          Logout
-        </button>
+            <Footer />
       </footer>
     </div>
   );
