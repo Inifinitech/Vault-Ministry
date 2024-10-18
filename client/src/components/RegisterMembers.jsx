@@ -28,6 +28,7 @@ function RegisterMembers() {
         }
 
         const newMember = {
+<<<<<<< HEAD
             first_name,
             last_name,
             dob,
@@ -38,8 +39,21 @@ function RegisterMembers() {
             school, 
             is_visitor, 
             will_be_coming, 
+=======
+            first_name: firstName,
+            last_name: lastName,
+            dob: DOB,
+            location,
+            phone,
+            leader,
+            is_student: isStudent,
+            school: isStudent ? school : '',
+            is_visitor: isVisitor,
+            will_be_coming: isVisitor ? willBeComing : false,
+>>>>>>> 6f1fb413b128a98ec49be63803d98d25230b397f
             occupation,
             group,
+            group_id: group
         };
         console.log('New Member Data:', JSON.stringify(newMember, null, 2));
 
@@ -51,8 +65,13 @@ function RegisterMembers() {
                 },
                 body: JSON.stringify(newMember),
             });
+<<<<<<< HEAD
 
             console.log('Response:', response);
+=======
+            
+            // const data = await response.json()
+>>>>>>> 6f1fb413b128a98ec49be63803d98d25230b397f
 
             if (response.ok) {
                 const data = await response.json();
@@ -225,7 +244,12 @@ function RegisterMembers() {
                         type="checkbox" 
                         checked={leader}
                         onChange={(e) => setLeader(e.target.checked)} 
+<<<<<<< HEAD
                         className="mr-2" />
+=======
+                        className="mr-2" 
+                        />
+>>>>>>> 6f1fb413b128a98ec49be63803d98d25230b397f
                 </div>
 
                 {error && <p className="text-red-600">{error}</p>}

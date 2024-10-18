@@ -6,14 +6,13 @@ const Login = ({ isOpen, onClose }) => {
     const [password, setPassword] = useState('');
     const [error, setError] = useState(null);
 
-    const navigate = useNavigate(); // Create the navigate instance
+    const navigate = useNavigate();
 
     if (!isOpen) return null;
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // Create login payload
         const loginData = {
             username,
             password
@@ -47,7 +46,7 @@ const Login = ({ isOpen, onClose }) => {
     return (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
             <div className="bg-white rounded-lg p-6 shadow-lg">
-                <h2 className="text-xl font-bold mb-4">Admin Login</h2>
+                <h2 className="text-xl font-bold mb-4">Login</h2>
                 {error && <p className="text-red-500">{error}</p>}
                 <form onSubmit={handleSubmit}>
                     <input

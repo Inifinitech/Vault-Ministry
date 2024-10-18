@@ -10,6 +10,7 @@ from models import db,Group,Attendance,Member,MemberEvent,Event,Admin
 from flask_restful import Resource,Api
 from sqlalchemy.exc import SQLAlchemyError
 import os
+import logging
 
 app=Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] ="sqlite:///app.db"
@@ -72,9 +73,14 @@ class HomeMember_name(Resource):
 
 class AdminRegistry(Resource):
     def post(self):
-            data = request.get_json()
-        
+        data = request.get_json()
+
         # Check for required fields
+        required_fields = ['first_name', 'last_name', 'group_id']
+        for field in required_fields:
+            if field not in data:
+                return {'error': f'Missing field: {field}'}, 400
+
             required_fields = ['first_name', 'last_name', 'group_id']
         
             for field in required_fields:
@@ -84,13 +90,14 @@ class AdminRegistry(Resource):
             print("Received data:",data)    
         
         # Fetch the group instance
-            group = Group.query.get(data['group_id'])
-            if not group:
-                return {'error': 'Group not found.'}, 404
-            new_member = Member(
+        group = db.session.get(Group, data['group_id'])
+        if not group:
+            return {'error': 'Group not found.'}, 404
+
+        # Create a new member instance
+        new_member = Member(
             first_name=data['first_name'],
             last_name=data['last_name'],
-            group=group,
             dob=data.get('dob'),
             location=data.get('location'),
             phone=data.get('phone'),
@@ -98,15 +105,17 @@ class AdminRegistry(Resource):
             is_student=data.get('is_student', False),
             will_be_coming=data.get('will_be_coming', False),
             is_visitor=data.get('is_visitor', False),
-            school=data.get('school')
+            school=data.get('school'),
+            group=group
         )
-            try:
-                db.session.add(new_member)
-                db.session.commit()
-                return make_response(new_member.to_dict(), 201)
-            except Exception as e:
-                db.session.rollback()
-                return {'error': str(e)}, 500
+
+        try:
+            db.session.add(new_member)
+            db.session.commit()
+            return make_response(new_member.to_dict(), 201)
+        except Exception as e:
+            db.session.rollback()
+            return {'error': str(e)}, 500
             
     def get(self):
         members = [member.to_dict(rules=('-group.members','-attendances', '-events','-memberevents',)) for member in Member.query.all()]
@@ -165,66 +174,63 @@ class AttendanceDetails(Resource):
                 if attendance is not None:
                     attendance_info = {
                         'id': member.id,
-                        'firstname': member.first_name,
-                        'lastname': member.last_name,
-                        'attendanceDate': attendance.date,
+                        'first_name': member.first_name,
+                        'last_name': member.last_name,
+                        'date': attendance.date, 
                         'present': attendance.status == 'present'
                     }
                 else: 
                     attendance_info = {
                         'id': member.id,
-                        'firstname': member.first_name,
-                        'lastname': member.last_name,
-                        'attendanceDate': 'N/A',
-                        'present': attendance.status == False
+                        'first_name': member.first_name,
+                        'last_name': member.last_name,
+                        'date': 'N/A',
+                        'present': False
                     }
                 
                 attendance_data.append(attendance_info)
 
-            return jsonify(attendance_data), 200
-        
+            # Return a properly formatted JSON response
+            return jsonify(attendance_data)
+
         except Exception as e:
             response = {'error': str(e)}
-            return make_response(response, 500)
+            return make_response(jsonify(response), 500)
+
 
 
 class AttendanceReports(Resource):
     def get(self):
         try:
             total_members = Member.query.count()
-            # find total number of attendances for the last month
+
             last_month = datetime.now() - timedelta(days=30)
             total_attendance = Attendance.query.filter(Attendance.date >= last_month).count()
 
-            # calculate attendance percentage
-            if total_members > 0:
-                attendance_percentage = (total_attendance / total_members) * 100
-            else: 
-                attendance_percentage = 0
-
-            # calculate absent members
+            attendance_percentage = (total_attendance / total_members) * 100 if total_members > 0 else 0
             absent_members = total_members - total_attendance
 
-            # find today's date to find the last Sunday
-            today = datetime.now()
-            # The last sunday
-            last_sunday = today - timedelta(days=today.weekday() + 1)
+            attendance_trends = []
+            for i in range(4):
+                sunday = datetime.now() - timedelta(days=datetime.now().weekday() + 1 + i * 7)
+                sunday_attendance = Attendance.query.filter(func.date(Attendance.date) == sunday.date()).count()
+                sunday_percentage = (sunday_attendance / total_members) * 100 if total_members > 0 else 0
+                attendance_trends.append({
+                    'date': sunday.strftime('%Y-%m-%d'),
+                    'percentage': sunday_percentage
+                })
 
-            attendance_count = Attendance.query.filter(func.date(Attendance.date) == last_sunday.date()).count()
-            attendance_percentage = (attendance_count / total_members) * 100 if total_members > 0 else 0
-
-            # data to return
             report_info = {
                 'totalMembers': total_members,
-                'attendancePercentage': attendance_percentage,
+                'attendancePercentage': round(attendance_percentage, 2),
                 'absentMembers': absent_members,
-                'lastSunday': last_sunday.strftime('%Y-%m-%d'),
-                'currentSunday': today.strftime('%Y-%m-%d') if today.weekday() == 6 else None
+                'attendanceTrends': attendance_trends,
             }
 
             return report_info, 200
-        
+
         except Exception as e:
+            logging.error(f"Error fetching attendance report: {e}")
             return {'error': str(e)}, 500
         
 class Admins(Resource):
@@ -269,13 +275,6 @@ class Logout(Resource):
         return jsonify({
             "message":"Logout sucessfully"
         })
-
-           
-
-
-
-
-
 
 
 api.add_resource(HomeMembers, '/homemembers')
