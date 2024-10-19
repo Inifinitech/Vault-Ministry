@@ -1,0 +1,72 @@
+.user-interaction{
+    top: -250px;
+    position: relative;
+    z-index: 999;
+}
+
+#search-input {
+    border-radius: 30px;
+    width: 90%; 
+    max-width: 900px; 
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: -60px;
+    padding: 0 20px; 
+}
+
+.home-title{
+    margin-top: -150px;
+}
+
+#banner-text{
+    font-size: 4rem; 
+    font-weight: 900; 
+    margin: 0; 
+    line-height: 2.2; 
+}
+
+#image-background{
+    margin-top: -136px;
+}
+
+#admin-login-button {
+    background-color: #F97316; 
+    color: white; 
+    padding: 12px 24px; 
+    border-radius: 0.5rem; 
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2); 
+    transition: background-color 0.3s, transform 0.3s; 
+    position: fixed; 
+    top: 20px; 
+    right: 70px; 
+    z-index: 1000; 
+}
+
+#admin-login-button:hover {
+    background-color: #EA580C; 
+    transform: scale(1.05); 
+    text-decoration: underline #000; 
+}
+
+footer {
+    background-color: #333; /* Dark background */
+    color: white; /* White text */
+    text-align: center; /* Centered text */
+    padding: 20px; /* Padding around the footer */
+    position: relative; /* Positioning context for children */
+}
+
+footer p {
+    margin: 5px 0; /* Spacing between paragraphs */
+}
+
+footer a {
+    color: #FFA500; /* Orange color for links */
+    text-decoration: none; /* Remove underline */
+}
+
+footer a:hover {
+    text-decoration: underline; /* Underline on hover */
+}

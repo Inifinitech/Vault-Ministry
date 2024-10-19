@@ -12,7 +12,7 @@ import Home from './components/Home';
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<Home/>} />
+      <Route path="/" element={<Home />} />
       <Route path="/admin-login" element={<Login />} />
       <Route path="/admin-dashboard" element={<AdminDashboard />} />
       <Route path="/register-member" element={<RegisterMembers />} />
