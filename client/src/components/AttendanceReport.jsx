@@ -82,10 +82,10 @@ function AttendanceReport() {
       ) : error ? (
         <p className="text-center text-lg text-red-600">{error}</p>
       ) : (
-        <div className="space-y-6">
-          <h2 className="text-2xl font-bold text-center">Attendance Report</h2>
+        <div className="space-y-6 p-14">
+          <h2 className="text-2xl font-bold text-center text-white">Attendance Report</h2>
 
-          <div className="text-center space-y-2">
+          <div className="text-center space-y-2 text-white">
             <h3 className="text-xl font-semibold">Total Members: {totalMembers}</h3>
             <h3 className="text-xl font-semibold">Attendance Percentage: {attendancePercentage}%</h3>
             <h3 className="text-xl font-semibold">Absent Members: {absentMembers}</h3>
@@ -93,12 +93,12 @@ function AttendanceReport() {
 
           <div className="flex flex-col md:flex-row justify-around items-center space-y-6 md:space-y-0">
             {/* Pie chart */}
-            <div className="w-64 h-64">
+            <div className="w-96 h-96 rounded-lg bg-gradient-to-r from-cyan-500 ">
               <Pie data={pieData} />
             </div>
 
             {/* Line chart */}
-            <div className="w-full md:w-2/3 h-64">
+            <div className="w-full md:w-2/3 h-64 item rounded-lg bg-gradient-to-r from-gray-50">
               <Line data={lineData} />
             </div>
           </div>

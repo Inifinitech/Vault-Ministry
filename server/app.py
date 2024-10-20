@@ -27,23 +27,11 @@ CORS(app)
 #secret key
 app.secret_key=os.urandom(24)
 
-# #Endpoints
-# @app.before_request
-# def before_login():
-#     protected_endpoints=['admins']
-#     if request.endpoint in protected_endpoints and request.method =='GET' and 'user_id' not in session:
-#         return jsonify (
-#             {
-#                 "message":"Please log in"
-#             }
-            
-#         )
+
 
 
 class HomeMembers(Resource):
-    # def get(self):
-    #     members_dict = [member.to_dict(only=('first_name', 'last_name')) | {'group_name': member.group.name} for member in Member.query.all()]
-    #     return make_response(members_dict, 200)
+    
     
 
      def get(self):
@@ -51,7 +39,7 @@ class HomeMembers(Resource):
         #     return {"message":"Please Login in to acess resources"}
         members_dict = []
         for member in Member.query.all():
-            member_info = member.to_dict(only=('first_name', 'last_name','dob','occupation','school' ,'location','will_be_coming'))
+            member_info = member.to_dict(only=('first_name', 'last_name','dob','location','phone','is_student','will_be_coming','is_visitor','school','occupation'))
             member_info.update({'group_name': member.group.name})
             members_dict.append(member_info)
         return make_response(members_dict, 200)
@@ -116,6 +104,8 @@ class AdminRegistry(Resource):
         except Exception as e:
             db.session.rollback()
             return {'error': str(e)}, 500
+
+
             
     def get(self):
         members = [member.to_dict(rules=('-group.members','-attendances', '-events','-memberevents',)) for member in Member.query.all()]
@@ -152,8 +142,8 @@ class AdminMemberSearch(Resource):
     def delete(self, id):
         member = Member.query.filter(Member.id==id).first()
         
-        # if not member:
-        #     return {"error": f"Member {id} not found"}, 400
+        if not member:
+            return {"error": f"Member {id} not found"}, 400
         
         db.session.delete(member)
         db.session.commit()

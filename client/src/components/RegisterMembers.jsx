@@ -17,10 +17,6 @@ function RegisterMembers() {
     const [success, setSuccess] = useState(null);
     const [isSubmitting, setIsSubmitting] = useState(false);
 
-    const handleGoBack = () => {
-        window.history.back();
-      };
-
     const handleSubmit = async (e) => {
         e.preventDefault();
         setIsSubmitting(true);
@@ -85,13 +81,19 @@ function RegisterMembers() {
         }
     };
 
+    const handleGoBack = () => {
+        window.history.back();
+      };
+
     return (
-        <div className="max-w-xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
-            <button onClick={handleGoBack}>Back</button>
-            <h1 className="text-2xl font-semibold mb-6 text-gray-800">Register a New Member</h1>
+        <div className="bg-report-page bg-center bg-cover min-h-screen">
+        <button onClick={handleGoBack}><img src='/images/home.jpg' alt="arrow" className="inline w-4 h-4 mr-2"/>Back</button>
+        
+        <div className="max-w-xl mx-auto mt-10 p-6 rounded-lg shadow-md">
+            <h1 className="text-2xl font-semibold text-white mb-6 text-gray-800">Register a New Member</h1>
             <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
-                    <label className="block text-gray-700 mb-2" htmlFor="firstName">First Name</label>
+                    <label className="block text-white mb-2" htmlFor="firstName">First Name</label>
                     <input 
                         id="firstName" 
                         type="text" 
@@ -102,7 +104,7 @@ function RegisterMembers() {
                 </div>
 
                 <div>
-                    <label className="block text-gray-700 mb-2" htmlFor="lastName">Last Name</label>
+                    <label className="block text-gray-700 text-white mb-2" htmlFor="lastName">Last Name</label>
                     <input 
                         id="lastName" 
                         type="text" 
@@ -113,7 +115,7 @@ function RegisterMembers() {
                 </div>
 
                 <div>
-                    <label className="block text-gray-700 mb-2" htmlFor="DOB">Date of Birth</label>
+                    <label className="block text-gray-700 text-white mb-2" htmlFor="DOB">Date of Birth</label>
                     <input 
                         id="DOB" 
                         type="date" 
@@ -124,7 +126,7 @@ function RegisterMembers() {
                 </div>
 
                 <div>
-                    <label className="block text-gray-700 mb-2" htmlFor="location">Location</label>
+                    <label className="block text-gray-700 text-white mb-2" htmlFor="location">Location</label>
                     <input 
                         id="location" 
                         type="text" 
@@ -135,7 +137,7 @@ function RegisterMembers() {
                 </div>
 
                 <div>
-                    <label className="block text-gray-700 mb-2" htmlFor="phone">Phone</label>
+                    <label className="block text-gray-700 text-white mb-2" htmlFor="phone">Phone</label>
                     <input 
                         id="phone" 
                         type="tel" 
@@ -152,12 +154,12 @@ function RegisterMembers() {
                         checked={isStudent} 
                         onChange={(e) => setIsStudent(e.target.checked)} 
                         className="mr-2" />
-                    <label htmlFor="isStudent" className="text-gray-700">Is Student?</label>
+                    <label htmlFor="isStudent" className="text-gray-700 text-white">Is Student?</label>
                 </div>
 
                 {isStudent && (
                     <div>
-                        <label className="block text-gray-700 mb-2" htmlFor="school">School Name</label>
+                        <label className="block text-gray-700 mb-2 text-white" htmlFor="school">School Name</label>
                         <input 
                             id="school" 
                             type="text" 
@@ -174,7 +176,7 @@ function RegisterMembers() {
                         checked={isVisitor} 
                         onChange={(e) => setIsVisitor(e.target.checked)} 
                         className="mr-2" />
-                    <label htmlFor="isVisitor" className="text-gray-700">Is Visitor?</label>
+                    <label htmlFor="isVisitor" className="text-gray-700 text-white">Is Visitor?</label>
                 </div>
 
                 {isVisitor && (
@@ -185,12 +187,12 @@ function RegisterMembers() {
                             checked={willBeComing} 
                             onChange={(e) => setWillBeComing(e.target.checked)} 
                             className="mr-2" />
-                        <label htmlFor="willBeComing" className="text-gray-700">Will be coming again?</label>
+                        <label htmlFor="willBeComing" className="text-gray-700 text-white">Will be coming again?</label>
                     </div>
                 )}
 
                 <div>
-                    <label className="block text-gray-700 mb-2" htmlFor="occupation">Occupation</label>
+                    <label className="block text-gray-700 mb-2 text-white" htmlFor="occupation">Occupation</label>
                     <input 
                         id="occupation" 
                         type="text" 
@@ -200,25 +202,26 @@ function RegisterMembers() {
                 </div>
 
                 <div>
-                    <label className="block text-gray-700 mb-2" htmlFor="group">AG Group</label>
-                        <select 
-                            id="group" 
-                            value={group} 
-                            onChange={(e) => setGroup(e.target.value)} 
-                            className="w-full p-3 border border-gray-300 rounded-lg"
-                            required
-                        >
-                            <option value="" disabled>Select Group</option>
-                            <option value="1">Transformers</option>
-                            <option value="2">Relentless</option>
-                            <option value="3">Innovators</option>
-                            <option value="4">Pacesetters</option>
-                            <option value="5">Ignition</option>
-                            <option value="6">Gifted</option>
-                            <option value="7">Visionaries</option>
-                            <option value="8">Elevated</option>
-                        </select>
-                    </div>
+                    <label className="block text-gray-700 mb-2 text-white" htmlFor="group">AG Group</label>
+                    <select 
+    id="group" 
+    value={group} 
+    onChange={(e) => setGroup(e.target.value)} 
+    className="w-full p-3 border border-gray-300 rounded-lg"
+    required
+>
+    <option value="" disabled>Select Group</option>
+    <option value="1">Transformers</option>
+    <option value="2">Relentless</option>
+    <option value="3">Innovators</option>
+    <option value="4">Pacesetters</option>
+    <option value="5">Ignition</option>
+    <option value="6">Gifted</option>
+    <option value="7">Visionaries</option>
+    <option value="8">Elevated</option>
+</select>
+
+</div>
 
                 <div>
                     <label className="block text-gray-700 mb-2" htmlFor="leader">Leader</label>
@@ -242,6 +245,7 @@ function RegisterMembers() {
                 </button>
                 
             </form>
+        </div>
         </div>
     );
 }
