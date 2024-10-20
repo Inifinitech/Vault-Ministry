@@ -39,7 +39,7 @@ function ViewMembers() {
       }
     };
     fetchMembers();
-  }, []); // Fetch only once when the component mounts
+  }, [today]); // Fetch only once when the component mounts
 
   useEffect(() => {
     const results = members.filter((member) =>
@@ -87,8 +87,36 @@ function ViewMembers() {
     }
   };
 
+  const deleteMember = async (memberId) => {
+    console.log("Deleting member with ID:", memberId); // Check if this logs the correct ID
+    const confirmDelete = window.confirm("Are you sure you want to delete this member?");
+    if (!confirmDelete) return;
+  
+    try {
+      const response = await fetch(`/adminsearch/${memberId}`, {
+        method: "DELETE",
+      });
+  
+      if (!response.ok) {
+        throw new Error("Failed to delete member");
+      }
+  
+      alert("Member deleted successfully!");
+      // Update the state
+      setMembers((prevMembers) =>
+        prevMembers.filter((member) => member.id !== memberId)
+      );
+      setFilteredMembers((prevFilteredMembers) =>
+        prevFilteredMembers.filter((member) => member.id !== memberId)
+      );
+    } catch (error) {
+      setError("Failed to delete member: " + error.message);
+    }
+  };
+  
+
   return (
-    <div className="bg-view-page bg-cover bg-center">
+    <div className="min-h-screen bg-view-page bg-cover bg-center">
       <button></button>
       <div className="container mx-auto p-4">
         <h1 className="text-3xl font-bold text-center text-orange-500 mb-6">
@@ -153,7 +181,7 @@ function ViewMembers() {
                     {memberName}
                   </p>
                   <p className="text-center">{`Firstname: ${member.first_name}`}</p>
-                  <p className="text-center">{`lastname: ${member.last_name}`}</p>
+                  <p className="text-center">{`Lastname: ${member.last_name}`}</p>
                   <p className="text-center">{`DOB: ${member.dob}`}</p>
                   <p className="text-center">{`Student: ${member.student}`}</p>
                   <p className="text-center">{`School: ${member.school}`}</p>
@@ -167,6 +195,7 @@ function ViewMembers() {
                   >
                     Mark Attendance
                   </button>
+                  <button onClick={() => deleteMember(member.id)}>Delete</button>
                 </div>
               );
             })}
