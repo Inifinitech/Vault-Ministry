@@ -143,8 +143,8 @@ class AdminMemberSearch(Resource):
     def delete(self, id):
         member = Member.query.filter(Member.id==id).first()
         
-        # if not member:
-        #     return {"error": f"Member {id} not found"}, 400
+        if not member:
+            return {"error": f"Member {id} not found"}, 400
         
         db.session.delete(member)
         db.session.commit()

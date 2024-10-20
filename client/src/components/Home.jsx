@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
-// import { Link } from 'react-router-dom';
 import Login from './Login'; 
+import transformersBg from '../images/transformersag.jpg';
+import vaultBg from '../images/vaultL1.jpg';
 
 function Home() {
     const [members, setMembers] = useState([]);
@@ -8,6 +9,7 @@ function Home() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false); 
+
 
     useEffect(() => {
         const fetchMembers = async () => {
@@ -56,15 +58,29 @@ function Home() {
             ) : error ? (
                 <p className='text-red-300 text-center text-lg' aria-live="polite">{error}</p>
             ) : (
-                <div className="flex flex-col space-y-4 w-full md:w-3/4 mx-auto">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                     {filteredMembers.map((member, index) => (
-                        <div
-                            key={member.id}
-                            className={`p-6 rounded-lg shadow-xl ${index % 2 === 0 ? 'bg-white' : 'bg-gray-50'} transition transform hover:scale-105`}
-                        >
-                            <p className="font-semibold text-lg">{`${member.first_name} ${member.last_name}`}</p>
-                            <p className="text-gray-600">{`AG Group: ${member.group_name}`}</p>
-                        </div>
+                            <div
+        key={member.id}
+        className="relative p-6 rounded-lg shadow-xl text-white transition transform hover:scale-105"
+        style={{
+            backgroundImage: member.group_name === 'Transformers'
+                ? `url(${transformersBg})` 
+                : `url(${vaultBg})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            minHeight: '200px',
+        }}
+    >
+        {/* Overlay */}
+        <div className="absolute inset-0 bg-black opacity-50 rounded-lg"></div>
+
+        {/* Text */}
+        <div className="relative z-10">
+            <p className="font-semibold text-lg">{`${member.first_name} ${member.last_name}`}</p>
+            <p className="text-white">{`AG Group: ${member.group_name}`}</p>
+        </div>
+    </div>
                     ))}
                 </div>
             )}
@@ -74,8 +90,6 @@ function Home() {
         </div>
         
     );
-    
-    
 }
 
 export default Home;
