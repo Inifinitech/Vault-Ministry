@@ -57,7 +57,8 @@ function RegisterMembers() {
             });
             
             // const data = await response.json()
-
+            console.log(response);
+            
             if (response.ok) {
                 setSuccess('Member registered successfully!');
                 setFirstName('');
@@ -208,14 +209,14 @@ function RegisterMembers() {
                             required
                         >
                             <option value="" disabled>Select Group</option>
-                            <option value="Transformers">Transformers</option>
-                            <option value="Relentless">Relentless</option>
-                            <option value="Innovators">Innovators</option>
-                            <option value="Pacesetters">Pacesetters</option>
-                            <option value="Ignition">Ignition</option>
-                            <option value="Gifted">Gifted</option>
-                            <option value="Visionaries">Visionaries</option>
-                            <option value="Elevated">Elevated</option>
+                            <option value="1">Transformers</option>
+                            <option value="2">Relentless</option>
+                            <option value="3">Innovators</option>
+                            <option value="4">Pacesetters</option>
+                            <option value="5">Ignition</option>
+                            <option value="6">Gifted</option>
+                            <option value="7">Visionaries</option>
+                            <option value="8">Elevated</option>
                         </select>
                     </div>
 

@@ -21,8 +21,8 @@ migrate=Migrate(app,db)
 db.init_app(app)
 api=Api(app)
 bcrypt=Bcrypt(app)
-# CORS(app)
-CORS(app, resources={r"/*": {"origins": "*"}})
+CORS(app)
+# CORS(app, resources={r"/*": {"origins": "*"}})
 
 #secret key
 app.secret_key=os.urandom(24)
@@ -112,7 +112,7 @@ class AdminRegistry(Resource):
         try:
             db.session.add(new_member)
             db.session.commit()
-            return make_response(new_member.to_dict(), 201)
+            return make_response(jsonify(new_member.to_dict()), 201)
         except Exception as e:
             db.session.rollback()
             return {'error': str(e)}, 500
