@@ -87,13 +87,13 @@ function ViewMembers() {
     }
   };
 
-  const deleteMember = async (memberId) => {
-    console.log("Deleting member with ID:", memberId); // Check if this logs the correct ID
+  const deleteMember = async (id) => {
+    console.log("Deleting member with ID:", id); // Check if this logs the correct ID
     const confirmDelete = window.confirm("Are you sure you want to delete this member?");
     if (!confirmDelete) return;
   
     try {
-      const response = await fetch(`/adminsearch/${memberId}`, {
+      const response = await fetch(`/adminsearch/${id}`, {
         method: "DELETE",
       });
   
@@ -104,10 +104,10 @@ function ViewMembers() {
       alert("Member deleted successfully!");
       // Update the state
       setMembers((prevMembers) =>
-        prevMembers.filter((member) => member.id !== memberId)
+        prevMembers.filter((member) => member.id !== id)
       );
       setFilteredMembers((prevFilteredMembers) =>
-        prevFilteredMembers.filter((member) => member.id !== memberId)
+        prevFilteredMembers.filter((member) => member.id !== id)
       );
     } catch (error) {
       setError("Failed to delete member: " + error.message);
