@@ -11,7 +11,6 @@ Flask-Migrate==4.0.7
 Flask-RESTful==0.3.10
 Flask-SQLAlchemy==3.1.1
 greenlet==3.1.1
-<<<<<<< HEAD
 itsdangerous==2.2.0
 Jinja2==3.1.4
 Mako==1.3.5
@@ -28,23 +27,3 @@ svgwrite==1.4.3
 Tree==0.2.4
 typing_extensions==4.12.2
 Werkzeug==3.0.4
-=======
-gunicorn==23.0.0
-importlib_metadata==8.5.0
-importlib_resources==6.4.5
-itsdangerous==2.2.0
-Jinja2==3.1.4
-Mako==1.3.5
-MarkupSafe==2.1.5
-packaging==24.1
-psycopg2-binary==2.9.10
-python-dateutil==2.9.0.post0
-pytz==2024.2
-PyYAML==6.0.2
-six==1.16.0
-SQLAlchemy==2.0.36
-SQLAlchemy-serializer==1.4.12
-typing_extensions==4.12.2
-Werkzeug==3.0.4
-zipp==3.20.2
->>>>>>> c8248950a6cac94132ab5c3574f45edc44f906a2
