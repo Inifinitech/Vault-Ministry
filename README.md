@@ -52,3 +52,5 @@ Administrators can view attendance reports and have the option print them
 3. Pipenv: Virtual environment and package management.
 
 - You can find the full list of dependencies in the Pipfile.
+
+### [Project Pitch](https://gamma.app/docs/jdd79zoib1qhezj)
