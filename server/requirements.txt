@@ -6,3 +6,4 @@ psycopg2
 Flask_restful
 Flask_bcrypt
 Flask
+sqlalchemy_serializer
