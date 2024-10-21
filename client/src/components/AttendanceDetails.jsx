@@ -8,7 +8,7 @@ function AttendanceDetails() {
     useEffect(() => {
         const fetchMemberAttendance = async () => {
             try {
-                const response = await fetch('http://127.0.0.1:5555/attendancedetails');
+                const response = await fetch('https://vault-ministry-server.onrender.com/attendancedetails');
                 if (!response.ok) {
                     throw new Error('Failed to fetch attendance details');
                 }

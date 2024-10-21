@@ -13,7 +13,7 @@ function ViewMembers() {
   useEffect(() => {
     const fetchMembers = async () => {
       try {
-        const response = await fetch("http://127.0.0.1:5555/homemembers");
+        const response = await fetch("https://vault-ministry-server.onrender.com/homemembers");
         if (!response.ok) {
           throw new Error("Failed to fetch members");
         }
@@ -63,7 +63,7 @@ function ViewMembers() {
 
     try {
       const response = await fetch(
-        `http://127.0.0.1:5555/homemembers/${memberName}`,
+        `https://vault-ministry-server.onrender.com/homemembers/${memberName}`,
         {
           method: "POST",
           headers: {
@@ -93,7 +93,7 @@ function ViewMembers() {
     if (!confirmDelete) return;
   
     try {
-      const response = await fetch(`/adminsearch/${memberId}`, {
+      const response = await fetch(`https://vault-ministry-server.onrender.com/adminsearch/${memberId}`, {
         method: "DELETE",
       });
   

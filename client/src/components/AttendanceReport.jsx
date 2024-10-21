@@ -25,7 +25,7 @@ function AttendanceReport() {
   useEffect(() => {
     const fetchAttendanceData = async () => {
       try {
-        const response = await fetch('http://127.0.0.1:5555/reports');
+        const response = await fetch('https://vault-ministry-server.onrender.com/reports');
         if (!response.ok) {
           throw new Error('Failed to fetch report data');
         }

@@ -12,7 +12,7 @@ function AdminDashboard() {
 useEffect(() =>{ 
   const displayMembers = async () => {
     try {
-      const response = await fetch("http://127.0.0.1:5555/homemembers");
+      const response = await fetch("https://vault-ministry-server.onrender.com/homemembers");
       if (!response.ok) {
         throw new Error('Failed to fetch members');
       }
@@ -21,7 +21,7 @@ useEffect(() =>{
       setTotalMembers(data.length)
 
       // attendance ratew
-      const displayAttendance = await fetch("http://127.0.0.1:5555/report")
+      const displayAttendance = await fetch("https://vault-ministry-server.onrender.com/report")
       if (!displayAttendance.ok) {
         throw new Error('Cannot get the attendance rate')
       }
