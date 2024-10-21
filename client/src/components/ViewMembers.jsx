@@ -39,7 +39,7 @@ function ViewMembers() {
       }
     };
     fetchMembers();
-  }, [today]); // Fetch only once when the component mounts
+  }, [today]);
 
   useEffect(() => {
     const results = members.filter((member) =>
@@ -63,7 +63,7 @@ function ViewMembers() {
 
     try {
       const response = await fetch(
-        `http://127.0.0.1:5555/homemembers/${memberName}`,
+        `https://vault-ministry-server.onrender.com/homemembers/${memberName}`,
         {
           method: "POST",
           headers: {
@@ -117,15 +117,23 @@ function ViewMembers() {
           </select>
         </div>
 
-        <div className="mb-4">
-          <input
-            type="text"
-            placeholder={`Search members by ${searchField}`}
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="p-2 border-2 border-gray-300 rounded-md focus:border-orange-500 transition"
-          />
-        </div>
+      <div style={{ marginBottom: "16px" }}>
+        <input
+          type="text"
+          placeholder={`Search members by ${searchField}`}
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          style={{
+            padding: "8px",
+            border: "2px solid #ccc",
+            borderRadius: "8px",
+            transition: "border-color 0.3s ease",
+            width: "100%",
+            maxWidth: "400px",
+            outline: "none",
+          }}
+        />
+      </div>
 
         {loading ? (
           <p aria-live="polite" className="text-center text-lg">

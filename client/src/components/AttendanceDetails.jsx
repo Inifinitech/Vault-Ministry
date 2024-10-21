@@ -6,9 +6,9 @@ const handleGoBack = () => {
   };
 
 function AttendanceDetails() {
-    const [members, setMembers] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+  const [members, setMembers] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
     useEffect(() => {
         const fetchMemberAttendance = async () => {
@@ -19,29 +19,29 @@ function AttendanceDetails() {
                 }
                 const data = await response.json();
 
-                // Filter attendance records to only include Sundays
-                const sundayAttendance = data.filter(member => {
-                    const attendanceDate = new Date(member.date);
-                    return attendanceDate.getDay() === 0; // 0 is Sunday
-                });
+        // Filter attendance records to only include Sundays
+        const sundayAttendance = data.filter(member => {
+          const attendanceDate = new Date(member.date);
+          return attendanceDate.getDay() === 0; // 0 is Sunday
+        });
 
-                setMembers(sundayAttendance);
-            } catch (err) {
-                setError(err.message);
-            } finally {
-                setLoading(false);
-            }
-        };
-        fetchMemberAttendance();
-    }, []);
-
-    const exportToCSV = () => {
-        // Generate CSV logic
+        setMembers(sundayAttendance);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
     };
+    fetchMemberAttendance();
+  }, []);
 
-    const printReport = () => {
-        window.print();
-    };
+  const exportToCSV = () => {
+    // Generate CSV logic
+  };
+
+  const printReport = () => {
+    window.print();
+  };
 
     return (
         <div>

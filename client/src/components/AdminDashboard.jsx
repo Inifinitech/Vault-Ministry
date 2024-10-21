@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
 import Footer from './Footer';
-
 
 function AdminDashboard() {
   const [members, setMembers] = useState([])
@@ -35,42 +34,95 @@ useEffect(() =>{
 }, [])
 
   return (
-    <div className="min-h-screen bg-gradient-to-r from-blue-700 to-fuchsia-700 flex flex-col">
-      <div className="">
-        <h1 className="text-center text-4xl font-bold p-4">Vault Ministry Reg Desk</h1>
+    <div style={{
+      minHeight: '100vh',
+      background: 'linear-gradient(to right, #1D4ED8, #D946EF)',
+      display: 'flex',
+      flexDirection: 'column',
+    }}>
+      <div>
+        <h1 style={{
+          textAlign: 'center',
+          fontSize: '2.25rem',
+          fontWeight: 'bold',
+          padding: '1rem',
+        }}>Vault Ministry Reg Desk</h1>
       </div>
-      <header className="bg-blue-800 shadow-lg p-6 text-white">
-        <h1 className="text-3xl font-bold tracking-wide">Admin Dashboard</h1>
+
+      <header style={{
+        backgroundColor: '#1E3A8A',
+        boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
+        padding: '1.5rem',
+        color: 'white',
+      }}>
+        <h1 style={{
+          fontSize: '1.875rem',
+          fontWeight: 'bold',
+          letterSpacing: '0.025em',
+        }}>Admin Dashboard</h1>
       </header>
-      
-      <main className="flex-grow p-10">
-        <div className="container mx-auto">
-          <div className="grid grid-cols-3 gap-8 mb-10">
-            
+
+      <main style={{ flexGrow: 1, padding: '2.5rem' }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(3, 1fr)',
+            gap: '2rem',
+            marginBottom: '2.5rem',
+          }}>
             {[
               { title: 'Total Members', value: totalMembers ? totalMembers : 'Loading...' },
               { title: 'Total Groups', value: '8' },
-              { title: 'Attendance Rate', value: `${attendanceRate}%`}
+              { title: 'Attendance Rate', value: `${attendanceRate}%` },
             ].map((stat, idx) => (
-              <div key={idx} className="bg-white p-6 shadow-xl rounded-lg transform transition duration-500 hover:scale-105">
-                <h2 className="text-lg font-semibold text-gray-600">{stat.title}</h2>
-                <p className="text-5xl font-bold text-gray-900">{stat.value}</p>
+              <div key={idx} style={{
+                backgroundColor: 'white',
+                padding: '1.5rem',
+                boxShadow: '0px 10px 15px rgba(0, 0, 0, 0.1)',
+                borderRadius: '0.5rem',
+                transform: 'scale(1)',
+                transition: 'transform 0.5s',
+                cursor: 'pointer',
+                ':hover': { transform: 'scale(1.05)' }
+              }}>
+                <h2 style={{ fontSize: '1rem', fontWeight: '600', color: '#4B5563' }}>{stat.title}</h2>
+                <p style={{
+                  fontSize: '3rem',
+                  fontWeight: 'bold',
+                  color: '#111827',
+                }}>{stat.value}</p>
               </div>
             ))}
           </div>
 
-          
-          <div className="grid grid-cols-1 gap-6">
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: '1fr',
+            gap: '1.5rem',
+          }}>
             {[
-              { to: '/register-member', label: 'Register New Member', color: 'bg-green-600' },
-              { to: '/view-members', label: 'View All Members', color: 'bg-blue-600' },
-              { to: '/attendance-report', label: 'Attendance Report', color: 'bg-purple-600' },
-              { to: '/attendance-details', label: 'Attendance Details', color: 'bg-purple-600' },
+              { to: '/register-member', label: 'Register New Member', color: '#16A34A' },
+              { to: '/view-members', label: 'View All Members', color: '#2563EB' },
+              { to: '/attendance-report', label: 'Attendance Report', color: '#7C3AED' },
+              { to: '/attendance-details', label: 'Attendance Details', color: '#7C3AED' },
             ].map((link, idx) => (
               <Link
                 key={idx}
                 to={link.to}
-                className={`${link.color} hover:opacity-90 text-white py-4 px-8 rounded-lg shadow-lg text-lg text-center font-semibold transition duration-300`}
+                style={{
+                  backgroundColor: link.color,
+                  color: 'white',
+                  padding: '1rem 2rem',
+                  borderRadius: '0.5rem',
+                  textAlign: 'center',
+                  fontSize: '1.125rem',
+                  fontWeight: '600',
+                  boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
+                  transition: 'opacity 0.3s',
+                  textDecoration: 'none',
+                }}
+                onMouseEnter={(e) => e.currentTarget.style.opacity = '0.9'}
+                onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
               >
                 {link.label}
               </Link>
@@ -79,8 +131,13 @@ useEffect(() =>{
         </div>
       </main>
 
-      <footer className="bg-gray-900 text-white p-6">
-            <Footer />
+      <footer style={{
+        backgroundColor: '#111827',
+        color: 'white',
+        padding: '1.5rem',
+        textAlign: 'center',
+      }}>
+        <Footer />
       </footer>
     </div>
   );

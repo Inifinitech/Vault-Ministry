@@ -12,7 +12,7 @@ function RegisterMembers() {
     const [willBeComing, setWillBeComing] = useState(false); 
     const [occupation, setOccupation] = useState('');
     const [group, setGroup] = useState('');
-    const [leader, setLeader] = useState('');
+    const [leader, setLeader] = useState(false);
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(null);
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -67,7 +67,7 @@ function RegisterMembers() {
                 setIsVisitor(false); 
                 setWillBeComing(false); 
                 setOccupation('');
-                setLeader('');
+                setLeader(false);
                 setGroup('');
                 setError(null);
             } else {
@@ -86,156 +86,173 @@ function RegisterMembers() {
       };
 
     return (
-        <div className="bg-report-page bg-center bg-cover min-h-screen">
-        <button onClick={handleGoBack}><img src='/images/home.jpg' alt="arrow" className="inline w-4 h-4 mr-2"/>Back</button>
-        
-        <div className="max-w-xl mx-auto mt-10 p-6 rounded-lg shadow-md">
-            <h1 className="text-2xl font-semibold text-white mb-6 text-gray-800">Register a New Member</h1>
-            <form onSubmit={handleSubmit} className="space-y-4">
-                <div>
-                    <label className="block text-white mb-2" htmlFor="firstName">First Name</label>
-                    <input 
-                        id="firstName" 
-                        type="text" 
-                        value={firstName} 
-                        onChange={(e) => setFirstName(e.target.value)} 
-                        className="w-full p-3 border border-gray-300 rounded-lg" 
-                        required />
-                </div>
+        <div style={{ backgroundImage: 'url(/images/bg-image.jpg)', backgroundSize: 'cover', minHeight: '100vh', padding: '1rem' }}>
+            <button onClick={handleGoBack} style={{ display: 'flex', alignItems: 'center', marginBottom: '1rem' }}>
+                <img src='/images/home.jpg' alt="arrow" style={{ width: '16px', height: '16px', marginRight: '8px' }} />Back
+            </button>
 
-                <div>
-                    <label className="block text-gray-700 text-white mb-2" htmlFor="lastName">Last Name</label>
-                    <input 
-                        id="lastName" 
-                        type="text" 
-                        value={lastName} 
-                        onChange={(e) => setLastName(e.target.value)} 
-                        className="w-full p-3 border border-gray-300 rounded-lg" 
-                        required />
-                </div>
-
-                <div>
-                    <label className="block text-gray-700 text-white mb-2" htmlFor="DOB">Date of Birth</label>
-                    <input 
-                        id="DOB" 
-                        type="date" 
-                        value={DOB} 
-                        onChange={(e) => setDOB(e.target.value)} 
-                        className="w-full p-3 border border-gray-300 rounded-lg" 
-                        required />
-                </div>
-
-                <div>
-                    <label className="block text-gray-700 text-white mb-2" htmlFor="location">Location</label>
-                    <input 
-                        id="location" 
-                        type="text" 
-                        value={location} 
-                        onChange={(e) => setLocation(e.target.value)} 
-                        className="w-full p-3 border border-gray-300 rounded-lg" 
-                        required />
-                </div>
-
-                <div>
-                    <label className="block text-gray-700 text-white mb-2" htmlFor="phone">Phone</label>
-                    <input 
-                        id="phone" 
-                        type="tel" 
-                        value={phone} 
-                        onChange={(e) => setPhone(e.target.value)} 
-                        className="w-full p-3 border border-gray-300 rounded-lg" 
-                        required />
-                </div>
-
-                <div className="flex items-center">
-                    <input 
-                        id="isStudent" 
-                        type="checkbox" 
-                        checked={isStudent} 
-                        onChange={(e) => setIsStudent(e.target.checked)} 
-                        className="mr-2" />
-                    <label htmlFor="isStudent" className="text-gray-700 text-white">Is Student?</label>
-                </div>
-
-                {isStudent && (
+            <div style={{
+                maxWidth: '600px',
+                margin: '0 auto',
+                padding: '24px',
+                borderRadius: '8px',
+                boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',
+                backgroundColor: 'rgba(255, 255, 255, 0.9)'
+            }}>
+                <h1 style={{ fontSize: '24px', fontWeight: '600', marginBottom: '24px', color: '#333' }}>Register a New Member</h1>
+                <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
                     <div>
-                        <label className="block text-gray-700 mb-2 text-white" htmlFor="school">School Name</label>
+                        <label htmlFor="firstName" style={{ display: 'block', marginBottom: '8px', color: '#333' }}>First Name</label>
                         <input 
-                            id="school" 
+                            id="firstName"
                             type="text" 
-                            value={school} 
-                            onChange={(e) => setSchool(e.target.value)} 
-                            className="w-full p-3 border border-gray-300 rounded-lg" />
-                    </div>
-                )}
-
-                <div className="flex items-center">
-                    <input 
-                        id="isVisitor" 
-                        type="checkbox" 
-                        checked={isVisitor} 
-                        onChange={(e) => setIsVisitor(e.target.checked)} 
-                        className="mr-2" />
-                    <label htmlFor="isVisitor" className="text-gray-700 text-white">Is Visitor?</label>
-                </div>
-
-                {isVisitor && (
-                    <div className="flex items-center">
-                        <input 
-                            id="willBeComing" 
-                            type="checkbox" 
-                            checked={willBeComing} 
-                            onChange={(e) => setWillBeComing(e.target.checked)} 
-                            className="mr-2" />
-                        <label htmlFor="willBeComing" className="text-gray-700 text-white">Will be coming again?</label>
-                    </div>
-                )}
-
-                <div>
-                    <label className="block text-gray-700 mb-2 text-white" htmlFor="occupation">Occupation</label>
-                    <input 
-                        id="occupation" 
-                        type="text" 
-                        value={occupation} 
-                        onChange={(e) => setOccupation(e.target.value)} 
-                        className="w-full p-3 border border-gray-300 rounded-lg" />
-                </div>
-
-                <div>
-                    <label className="block text-gray-700 mb-2 text-white" htmlFor="group">AG Group</label>
-                    <select 
-    id="group" 
-    value={group} 
-    onChange={(e) => setGroup(e.target.value)} 
-    className="w-full p-3 border border-gray-300 rounded-lg"
-    required
->
-    <option value="" disabled>Select Group</option>
-    <option value="1">Transformers</option>
-    <option value="2">Relentless</option>
-    <option value="3">Innovators</option>
-    <option value="4">Pacesetters</option>
-    <option value="5">Ignition</option>
-    <option value="6">Gifted</option>
-    <option value="7">Visionaries</option>
-    <option value="8">Elevated</option>
-</select>
-
-</div>
-
-                <div>
-                    <label className="block text-gray-700 mb-2" htmlFor="leader">Leader</label>
-                    <input 
-                        id="leader" 
-                        type="checkbox" 
-                        checked={leader}
-                        onChange={(e) => setLeader(e.target.checked)} 
-                        className="mr-2" 
+                            value={firstName} 
+                            onChange={(e) => setFirstName(e.target.value)} 
+                            style={{ width: '100%', padding: '12px', border: '1px solid #ccc', borderRadius: '4px' }}
+                            required 
                         />
-                </div>
+                    </div>
 
-                {error && <p className="text-red-600">{error}</p>}
-                {success && <p className="text-green-600">{success}</p>}
+                    <div>
+                        <label htmlFor="lastName" style={{ display: 'block', marginBottom: '8px', color: '#333' }}>Last Name</label>
+                        <input 
+                            id="lastName"
+                            type="text" 
+                            value={lastName} 
+                            onChange={(e) => setLastName(e.target.value)} 
+                            style={{ width: '100%', padding: '12px', border: '1px solid #ccc', borderRadius: '4px' }}
+                            required 
+                        />
+                    </div>
+
+                    <div>
+                        <label htmlFor="DOB" style={{ display: 'block', marginBottom: '8px', color: '#333' }}>Date of Birth</label>
+                        <input 
+                            id="DOB"
+                            type="date" 
+                            value={DOB} 
+                            onChange={(e) => setDOB(e.target.value)} 
+                            style={{ width: '100%', padding: '12px', border: '1px solid #ccc', borderRadius: '4px' }}
+                            required 
+                        />
+                    </div>
+
+                    <div>
+                        <label htmlFor="location" style={{ display: 'block', marginBottom: '8px', color: '#333' }}>Location</label>
+                        <input 
+                            id="location"
+                            type="text" 
+                            value={location} 
+                            onChange={(e) => setLocation(e.target.value)} 
+                            style={{ width: '100%', padding: '12px', border: '1px solid #ccc', borderRadius: '4px' }}
+                            required 
+                        />
+                    </div>
+
+                    <div>
+                        <label htmlFor="phone" style={{ display: 'block', marginBottom: '8px', color: '#333' }}>Phone</label>
+                        <input 
+                            id="phone"
+                            type="tel" 
+                            value={phone} 
+                            onChange={(e) => setPhone(e.target.value)} 
+                            style={{ width: '100%', padding: '12px', border: '1px solid #ccc', borderRadius: '4px' }}
+                            required 
+                        />
+                    </div>
+
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                        <input 
+                            id="isStudent" 
+                            type="checkbox" 
+                            checked={isStudent} 
+                            onChange={(e) => setIsStudent(e.target.checked)} 
+                            style={{ marginRight: '8px' }}
+                        />
+                        <label htmlFor="isStudent" style={{ color: '#333' }}>Is Student?</label>
+                    </div>
+
+                    {isStudent && (
+                        <div>
+                            <label htmlFor="school" style={{ display: 'block', marginBottom: '8px', color: '#333' }}>School Name</label>
+                            <input 
+                                id="school"
+                                type="text" 
+                                value={school} 
+                                onChange={(e) => setSchool(e.target.value)} 
+                                style={{ width: '100%', padding: '12px', border: '1px solid #ccc', borderRadius: '4px' }}
+                            />
+                        </div>
+                    )}
+
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                        <input 
+                            id="isVisitor" 
+                            type="checkbox" 
+                            checked={isVisitor} 
+                            onChange={(e) => setIsVisitor(e.target.checked)} 
+                            style={{ marginRight: '8px' }}
+                        />
+                        <label htmlFor="isVisitor" style={{ color: '#333' }}>Is Visitor?</label>
+                    </div>
+
+                    {isVisitor && (
+                        <div style={{ display: 'flex', alignItems: 'center' }}>
+                            <input 
+                                id="willBeComing" 
+                                type="checkbox" 
+                                checked={willBeComing} 
+                                onChange={(e) => setWillBeComing(e.target.checked)} 
+                                style={{ marginRight: '8px' }}
+                            />
+                            <label htmlFor="willBeComing" style={{ color: '#333' }}>Will be coming again?</label>
+                        </div>
+                    )}
+
+                    <div>
+                        <label htmlFor="occupation" style={{ display: 'block', marginBottom: '8px', color: '#333' }}>Occupation</label>
+                        <input 
+                            id="occupation"
+                            type="text" 
+                            value={occupation} 
+                            onChange={(e) => setOccupation(e.target.value)} 
+                            style={{ width: '100%', padding: '12px', border: '1px solid #ccc', borderRadius: '4px' }}
+                        />
+                    </div>
+
+                    <div>
+                        <label htmlFor="group" style={{ display: 'block', marginBottom: '8px', color: '#333' }}>AG Group</label>
+                        <select 
+                            id="group" 
+                            value={group} 
+                            onChange={(e) => setGroup(e.target.value)} 
+                            style={{ width: '100%', padding: '12px', border: '1px solid #ccc', borderRadius: '4px' }}
+                        >
+                                <option value="" disabled>Select Group</option>
+                                <option value="1">Transformers</option>
+                                <option value="2">Relentless</option>
+                                <option value="3">Innovators</option>
+                                <option value="4">Pacesetters</option>
+                                <option value="5">Ignition</option>
+                                <option value="6">Gifted</option>
+                                <option value="7">Visionaries</option>
+                                <option value="8">Elevated</option>
+                        </select>
+                    </div>
+
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                        <input 
+                            id="leader" 
+                            type="checkbox" 
+                            checked={leader} 
+                            onChange={(e) => setLeader(e.target.checked)} 
+                            style={{ marginRight: '8px' }}
+                        />
+                        <label htmlFor="leader" style={{ color: '#333' }}>Leader</label>
+                    </div>
+
+                    {error && <p style={{ color: 'red' }}>{error}</p>}
+                    {success && <p style={{ color: 'green' }}>{success}</p>}
 
                 <button 
                     type="submit" 
