@@ -55,7 +55,7 @@ class Attendance(db.Model,SerializerMixin):
 
     id=db.Column(db.Integer,primary_key=True)
     date=db.Column(db.String,nullable=False)
-    status=db.Column(db.String,nullable=False)# present,absent
+    status=db.Column(db.String,nullable=False)
 
     member_id=db.Column(db.Integer,db.ForeignKey('members.id'))
 

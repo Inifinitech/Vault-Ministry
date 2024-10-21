@@ -8,8 +8,7 @@ function Home() {
     const [searchTerm, setSearchTerm] = useState('');
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [isModalOpen, setIsModalOpen] = useState(false); 
-
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     useEffect(() => {
         const fetchMembers = async () => {
@@ -34,13 +33,47 @@ function Home() {
     );
 
     return (
-        <div className="min-h-screen bg-hero-pattern flex flex-col items-center justify-center p-6">
-            <h1 className="text-center text-5xl font-extrabold text-white mb-4 shadow-md">Vault Ministry</h1>
+        <div style={{
+            minHeight: '100vh',
+            backgroundImage: 'url("/path-to-your-hero-pattern.jpg")',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: '1.5rem',
+        }}>
+            <h1 style={{
+                textAlign: 'center',
+                fontSize: '3rem',
+                fontWeight: '900',
+                color: '#fff',
+                marginBottom: '1rem',
+                textShadow: '0px 2px 4px rgba(0, 0, 0, 0.7)',
+            }}>Vault Ministry</h1>
 
-            <h2 className="text-4xl font-extrabold text-white mb-8">Registered Members</h2>
+            <h2 style={{
+                fontSize: '2rem',
+                fontWeight: '900',
+                color: '#fff',
+                marginBottom: '2rem',
+            }}>Registered Members</h2>
+            
             <button 
                 onClick={() => setIsModalOpen(true)} 
-                className="bg-orange-500 text-white py-3 px-6 rounded-lg shadow-lg transition duration-300 hover:bg-orange-600 transform hover:scale-105 mb-6"
+                style={{
+                    backgroundColor: '#f97316',
+                    color: '#fff',
+                    padding: '0.75rem 1.5rem',
+                    borderRadius: '0.5rem',
+                    boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.2)',
+                    transition: 'transform 0.3s ease',
+                    cursor: 'pointer',
+                    marginBottom: '1.5rem',
+                }}
+                onMouseEnter={e => e.target.style.transform = 'scale(1.05)'}
+                onMouseLeave={e => e.target.style.transform = 'scale(1)'}
             >
                 Admin Login
             </button>
@@ -50,45 +83,88 @@ function Home() {
                 placeholder="Search members"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="p-3 border-2 border-white rounded-md focus:border-orange-300 transition mb-6 w-full md:w-1/2 mx-auto bg-white shadow-lg"
+                style={{
+                    padding: '0.75rem',
+                    border: '2px solid #fff',
+                    borderRadius: '0.5rem',
+                    transition: 'border-color 0.3s ease',
+                    marginBottom: '1.5rem',
+                    width: '100%',
+                    maxWidth: '50%',
+                    backgroundColor: '#fff',
+                    boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.2)',
+                }}
+                onFocus={e => e.target.style.borderColor = '#fb923c'}
+                onBlur={e => e.target.style.borderColor = '#fff'}
             />
 
             {loading ? (
-                <p aria-live="polite" className="text-center text-lg font-semibold text-white">Loading...</p>
+                <p style={{
+                    textAlign: 'center',
+                    fontSize: '1.125rem',
+                    fontWeight: '600',
+                    color: '#fff',
+                }}>Loading...</p>
             ) : error ? (
-                <p className='text-red-300 text-center text-lg' aria-live="polite">{error}</p>
+                <p style={{
+                    color: '#fca5a5',
+                    textAlign: 'center',
+                    fontSize: '1.125rem',
+                }}>{error}</p>
             ) : (
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                    {filteredMembers.map((member, index) => (
-                            <div
-        key={member.id}
-        className="relative p-6 rounded-lg shadow-xl text-white transition transform hover:scale-105"
-        style={{
-            backgroundImage: member.group_name === 'Transformers'
-                ? `url(${transformersBg})` 
-                : `url(${vaultBg})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            minHeight: '200px',
-        }}
-    >
-        {/* Overlay */}
-        <div className="absolute inset-0 bg-black opacity-50 rounded-lg"></div>
+                <div style={{
+                    display: 'grid',
+                    gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))',
+                    gap: '1rem',
+                    width: '100%',
+                }}>
+                    {filteredMembers.map((member) => (
+                        <div
+                            key={member.id}
+                            style={{
+                                position: 'relative',
+                                padding: '1.5rem',
+                                borderRadius: '0.75rem',
+                                boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.2)',
+                                color: '#fff',
+                                backgroundImage: member.group_name === 'Transformers'
+                                    ? `url(${transformersBg})` 
+                                    : `url(${vaultBg})`,
+                                backgroundSize: 'cover',
+                                backgroundPosition: 'center',
+                                minHeight: '200px',
+                                transition: 'transform 0.3s ease',
+                                cursor: 'pointer',
+                            }}
+                            onMouseEnter={e => e.target.style.transform = 'scale(1.05)'}
+                            onMouseLeave={e => e.target.style.transform = 'scale(1)'}
+                        >
+                            {/* Overlay */}
+                            <div style={{
+                                position: 'absolute',
+                                inset: '0',
+                                backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                                borderRadius: '0.75rem',
+                            }}></div>
 
-        {/* Text */}
-        <div className="relative z-10">
-            <p className="font-semibold text-lg">{`${member.first_name} ${member.last_name}`}</p>
-            <p className="text-white">{`AG Group: ${member.group_name}`}</p>
-        </div>
-    </div>
+                            {/* Text */}
+                            <div style={{
+                                position: 'relative',
+                                zIndex: '10',
+                            }}>
+                                <p style={{
+                                    fontWeight: '600',
+                                    fontSize: '1.125rem',
+                                }}>{`${member.first_name} ${member.last_name}`}</p>
+                                <p>{`AG Group: ${member.group_name}`}</p>
+                            </div>
+                        </div>
                     ))}
                 </div>
             )}
             
             <Login isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
-            
         </div>
-        
     );
 }
 
