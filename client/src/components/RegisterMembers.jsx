@@ -53,7 +53,8 @@ function RegisterMembers() {
             });
             
             // const data = await response.json()
-
+            console.log(response);
+            
             if (response.ok) {
                 setSuccess('Member registered successfully!');
                 setFirstName('');
@@ -242,6 +243,7 @@ function RegisterMembers() {
                     className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg">
                     {isSubmitting ? 'Submitting...' : 'Register Member'}
                 </button>
+                
             </form>
         </div>
         </div>

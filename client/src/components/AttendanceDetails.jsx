@@ -1,5 +1,10 @@
 import { useState, useEffect } from 'react';
 
+
+const handleGoBack = () => {
+    window.history.back();
+  };
+
 function AttendanceDetails() {
     const [members, setMembers] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -41,6 +46,7 @@ function AttendanceDetails() {
     return (
         <div>
             <div className="mb-4">
+            <button onClick={handleGoBack}>Back</button>
                 <button onClick={exportToCSV} className="p-2 bg-blue-500 text-white rounded mr-2">
                     Export to CSV
                 </button>

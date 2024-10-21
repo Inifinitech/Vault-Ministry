@@ -22,21 +22,12 @@ db.init_app(app)
 api=Api(app)
 bcrypt=Bcrypt(app)
 CORS(app)
+# CORS(app, resources={r"/*": {"origins": "*"}})
 
 #secret key
 app.secret_key=os.urandom(24)
 
-#Endpoints
-@app.before_request
-def before_login():
-    protected_endpoints=['admins']
-    if request.endpoint in protected_endpoints and request.method =='GET' and 'user_id' not in session:
-        return jsonify (
-            {
-                "message":"Please log in"
-            }
-            
-        )
+
 
 
 class HomeMembers(Resource):
@@ -78,6 +69,14 @@ class AdminRegistry(Resource):
             if field not in data:
                 return {'error': f'Missing field: {field}'}, 400
 
+            required_fields = ['first_name', 'last_name', 'group_id']
+        
+            for field in required_fields:
+                if field not in data:
+                    return {'error': f'Missing field: {field}'}, 400
+                
+            print("Received data:",data)    
+        
         # Fetch the group instance
         group = db.session.get(Group, data['group_id'])
         if not group:
@@ -101,7 +100,7 @@ class AdminRegistry(Resource):
         try:
             db.session.add(new_member)
             db.session.commit()
-            return make_response(new_member.to_dict(), 201)
+            return make_response(jsonify(new_member.to_dict()), 201)
         except Exception as e:
             db.session.rollback()
             return {'error': str(e)}, 500

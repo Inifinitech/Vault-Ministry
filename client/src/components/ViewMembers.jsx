@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
 
 function ViewMembers() {
   const [members, setMembers] = useState([]);
@@ -73,55 +73,27 @@ function ViewMembers() {
         }
       );
 
-      if (response.ok) {
-        alert(`Attendance for ${memberName} marked successfully!`);
-        setAttendanceMarked((prev) => ({
-          ...prev,
-          [memberName]: true,
-        }));
-      } else {
-        throw new Error("Failed to mark attendance");
-      }
-    } catch (error) {
-      setError("Failed to mark attendance: " + error.message);
-    }
-  };
+            if (response.ok) {
+                alert(`Attendance for ${memberName} marked successfully!`);
+                setAttendanceMarked((prev) => ({
+                    ...prev,
+                    [memberName]: true,
+                }));
+            } else {
+                throw new Error('Failed to mark attendance');
+            }
+        } catch (error) {
+            setError('Failed to mark attendance: ' + error.message);
+        }
+    };
+    const handleGoBack = () => {
+        window.history.back();
+      };
+    return (
+        <div className="container mx-auto p-4">
+        <button onClick={handleGoBack}>Back</button>
 
-  const deleteMember = async (id) => {
-    console.log("Deleting member with ID:", id); // Check if this logs the correct ID
-    const confirmDelete = window.confirm("Are you sure you want to delete this member?");
-    if (!confirmDelete) return;
-  
-    try {
-      const response = await fetch(`/adminsearch/${id}`, {
-        method: "DELETE",
-      });
-  
-      if (!response.ok) {
-        throw new Error("Failed to delete member");
-      }
-  
-      alert("Member deleted successfully!");
-      // Update the state
-      setMembers((prevMembers) =>
-        prevMembers.filter((member) => member.id !== id)
-      );
-      setFilteredMembers((prevFilteredMembers) =>
-        prevFilteredMembers.filter((member) => member.id !== id)
-      );
-    } catch (error) {
-      setError("Failed to delete member: " + error.message);
-    }
-  };
-  
-
-  return (
-    <div className="min-h-screen bg-view-page bg-cover bg-center">
-      <button></button>
-      <div className="container mx-auto p-4">
-        <h1 className="text-3xl font-bold text-center text-orange-500 mb-6">
-          View Members
-        </h1>
+            <h1 className="text-3xl font-bold text-center text-orange-500 mb-6">View Members</h1>
 
         <div className="mb-4">
           <label htmlFor="searchField" className="mr-2 text-lg">
@@ -204,7 +176,6 @@ function ViewMembers() {
           <p className="text-center text-lg">No members found.</p>
         )}
       </div>
-    </div>
   );
 }
 

@@ -14,6 +14,11 @@ import {
 // Register the components
 ChartJS.register(ArcElement, LineElement, CategoryScale, LinearScale, PointElement, Tooltip, Legend);
 
+const handleGoBack = () => {
+  window.history.back();
+};
+
+
 function AttendanceReport() {
   const [totalMembers, setTotalMembers] = useState(0);
   const [attendancePercentage, setAttendancePercentage] = useState(0);
@@ -68,7 +73,10 @@ function AttendanceReport() {
   };
 
   return (
-    <div className="bg-report-page bg-center bg-cover min-h-screen">
+    
+    <div className="p-8">
+    <button onClick={handleGoBack}>Back</button>
+
       {loading ? (
         <p className="text-center text-lg text-gray-600">Loading...</p>
       ) : error ? (
