@@ -32,17 +32,34 @@ if __name__ == '__main__':
         Admin.query.delete()
 
         print("Seeding groups...")
-        groups = [Group(name=fake.name()) for _ in range(20)]
-        db.session.add_all(groups)   
-        db.session.commit() 
 
-        print("Seeding members...")
+        # List of groups from your frontend dropdown
+        group_names = [
+            "Transformers",
+            "Relentless",
+            "Innovators",
+            "Pacesetters",
+            "Ignition",
+            "Gifted",
+            "Visionaries",
+            "Elevated"
+        ]
+
+        groups = []
+        for name in group_names:
+            group = Group(name=name)
+            groups.append(group)
+        db.session.add_all(groups)
+        db.session.commit()
+
+        print("Seeding members.py ....")
+
         members = []
-        for _ in range(30):
+        for i in range(30):
             member = Member(
                 first_name=fake.first_name(),
                 last_name=fake.last_name(),
-                dob=fake.date_of_birth(minimum_age=18, maximum_age=80),  # Ensure realistic dob
+                dob=fake.date(),
                 location=fake.city(),
                 phone=fake.phone_number(),
                 is_student=fake.boolean(chance_of_getting_true=50),
@@ -50,44 +67,57 @@ if __name__ == '__main__':
                 is_visitor=fake.boolean(chance_of_getting_true=50),
                 school=fake.company(),
                 occupation=fake.job(),
-                group_id=random.choice(groups).id
+                group_id=random.choice(groups).id  # Randomly select a group from groups
             )
             members.append(member)
-        db.session.add_all(members) 
-        db.session.commit()   
+        db.session.add_all(members)
+        db.session.commit()
 
-        print("Seeding attendances...")
+        print("Seeding attendances....")
+
+        # Calculate this week's Sunday
         today = datetime.now()
-        days_to_sunday = 6 - today.weekday() if today.weekday() < 6 else 0
-        attendance_dates = [(today + timedelta(days=i)).strftime('%Y-%m-%d') for i in range(7)]  # Next week
-        attendances = [
-            Attendance(
-                date=random.choice(attendance_dates),  # Random date within the week
+        days_to_sunday = 6 - today.weekday() if today.weekday() < 6 else 0  # Ensures we always get this week's Sunday
+        attendance_date = (today + timedelta(days=days_to_sunday)).strftime('%Y-%m-%d')  # Get this Sunday's date
+
+        attendances = []
+        for i in range(20):
+            attendance = Attendance(
+                date=attendance_date,  # This week's Sunday
                 status=random.choice(['present', 'absent']),
-                member_id=random.choice(members).id
-            ) for _ in range(20)
-        ]
+                member_id=random.choice(members).id  # Randomly select a member id from the members list
+            )
+            attendances.append(attendance)
         db.session.add_all(attendances)
         db.session.commit()
 
-        print("Seeding events...")
-        events = [Event(name=church_events()) for _ in range(30)]
-        db.session.add_all(events)  
-        db.session.commit()  
+        print("Seeding events")
+        events = []
+        for i in range(30):
+            event = Event(name=church_events())
+            events.append(event)
+        db.session.add_all(events)
+        db.session.commit()
 
         print("Seeding member events...")
-        memberevents = [
-            MemberEvent(
-                member_id=random.choice(members).id,
-                event_id=random.choice(events).id
-            ) for _ in range(50)
-        ]
+
+        memberevents = []
+        for i in range(50):
+            memberevent = MemberEvent(
+                member_id=random.choice(members).id,  # Randomly select a member
+                event_id=random.choice(events).id  # Randomly select an event
+            )
+            memberevents.append(memberevent)
         db.session.add_all(memberevents)
         db.session.commit()
 
         print("Seeding users...")
-        admins = [Admin(username=fake.user_name(), password=fake.password()) for _ in range(5)]
+        admins = []
+        user = Admin(
+            username=fake.user_name(),
+            password='tripin'
+        )
+        admins.append(user)
+
         db.session.add_all(admins)
         db.session.commit()
-
-        print("Seeding completed.")
