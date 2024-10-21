@@ -13,7 +13,7 @@ function ViewMembers() {
   useEffect(() => {
     const fetchMembers = async () => {
       try {
-        const response = await fetch("http://127.0.0.1:5555/homemembers");
+        const response = await fetch("https://vault-ministry-grpa.onrender.com/homemembers");
         if (!response.ok) {
           throw new Error("Failed to fetch members");
         }
